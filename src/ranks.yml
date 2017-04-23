@@ -1,0 +1,17 @@
+Ladders:
+  DefaultLadder:
+    Default: true
+    RequiresRank: false
+    Ranks:
+      A:
+        Perm: paidranks.defaultladder.a
+        Position: 1
+        Price: 20
+      B:
+        Perm: paidranks.defaultladder.b
+        Position: 2
+        Price: 40
+      C:
+        Perm: paidranks.defaultladder.c
+        Position: 3
+        Price: 80
