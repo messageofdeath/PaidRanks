@@ -25,17 +25,14 @@ public class RankDatabase {
 		for (String ladder : this.database.getSection(pre, new ArrayList<String>())) {
 			Ladder ladderx = new Ladder(this.instance, ladder);
 			pre += "." + ladder + ".Ranks";
-			instance.log(pre, true);
 			ArrayList<String> ranks = this.database.getSection(pre, new ArrayList<String>());
 			pre += ".";
-			instance.log(pre, true);
 			for(String rank : ranks) {
 				pre = "Ladders."+ladder+".Ranks."+rank+".";
 				ladderx.addRank(rank, this.database.getString(pre + "Perm", "noPerm"), this.database.getInteger(pre + "Position", 0), 
 						this.database.getInteger(pre + "Price", 0));
 			}
 			pre = "Ladders." + ladder + ".";
-			instance.log(pre, true);
 			ladderx.setRequiresRank(this.database.getBoolean(pre + "RequiresRank", false));
 			ladderx.setDefault(this.database.getBoolean(pre + "Default", false));
 			this.instance.getLadderManager().addLadder(ladderx);
