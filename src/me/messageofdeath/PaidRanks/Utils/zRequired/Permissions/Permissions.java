@@ -15,16 +15,16 @@ public abstract class Permissions {
 		this.plugin = plugin;
 	}
 
-	public abstract void addGroup(UUID player, String world, String group);
+	public abstract void addGroup(UUID uuid, String world, String group);
 	
-	public abstract void removeGroup(UUID player, String world, String group);
+	public abstract void removeGroup(UUID uuid, String world, String group);
 	
-	public void setGroup(UUID player, String world, String oldGroup, String newGroup) {
-		removeGroup(player, world, oldGroup);
-		addGroup(player, world, newGroup);
+	public void setGroup(UUID uuid, String world, String oldGroup, String newGroup) {
+		removeGroup(uuid, world, oldGroup);
+		addGroup(uuid, world, newGroup);
 	}
 	
-	public abstract boolean hasGroup(UUID player, String world, String group);
+	public abstract boolean hasGroup(UUID uuid, String world, String group);
 	
 	public abstract String[] getGroups(UUID uuid, String world);
 	
