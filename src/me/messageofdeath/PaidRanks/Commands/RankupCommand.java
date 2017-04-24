@@ -96,7 +96,6 @@ public class RankupCommand extends MessageCommand {
 							if (ladderx.getNextRank(group) != null) {
 								Rank rankx = ladderx.getNextRank(group);
 								if (PaidRanksAPI.hasAccount(uuid)) {
-									instance.log("Cost: " + rankx.getPrice(), true);
 									if (PaidRanksAPI.hasEnoughMoney(uuid, rankx.getPrice())) {
 										if ((!rankx.hasPermission()) || ((rankx.hasPermission())
 												&& (cmd.getSender().hasPermission(rankx.getPermission())))) {
@@ -108,7 +107,6 @@ public class RankupCommand extends MessageCommand {
 											super.error(cmd, LanguageSettings.Commands_Rankup_NoPerm.getSetting());
 										}
 									} else {
-										instance.log(PaidRanksAPI.getFormat(20), true);//2908289424u92842
 										super.error(cmd,
 												LanguageSettings.Commands_Rankup_NoMoney.getSetting()
 														.replace("%cash", PaidRanksAPI.getFormat(rankx.getPrice()))
