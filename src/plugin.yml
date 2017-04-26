@@ -1,7 +1,7 @@
 name: PaidRanks
 author: messageofdeath
 version: 3.4
-softdepend: [TheNewEconomy, PermissionsEx]
+softdepend: [TheNewEconomy, PermissionsEx, LuckPerms]
 main: me.messageofdeath.PaidRanks.PaidRanks
 commands:
   paidranks:
