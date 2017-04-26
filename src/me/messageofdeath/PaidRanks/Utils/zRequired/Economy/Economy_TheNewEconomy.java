@@ -13,7 +13,6 @@ public class Economy_TheNewEconomy extends Economy {
 	
 	public Economy_TheNewEconomy(PaidRanks plugin) {
 		super(plugin);
-		this.setupEconomy();
 	}
 
 	@Override
