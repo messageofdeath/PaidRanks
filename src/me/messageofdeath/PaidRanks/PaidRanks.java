@@ -27,22 +27,27 @@ public class PaidRanks extends JavaPlugin {
 		this.ladderManager = new LadderManager(this);
 		this.databaseManager = new DatabaseManager(this);
 		this.databaseManager.onStartUp();
-		//this.vault = new Vault(this);
+		this.log("Loading PaidRanks...", true);
+		this.log("Searching for Economy plug-ins...", true);
 		this.economyManager = new EconomyManager(this);
 		this.economyManager.startEconomy();
 		PaidRanksAPI.setEconomy(this.economyManager.getEconomy());
+		this.log("Searching for Permission plug-ins...", true);
 		this.permissionsManager = new PermissionsManager(this);
 		this.permissionsManager.startPermissions();
 		PaidRanksAPI.setPermissions(this.permissionsManager.getPermissions());
-		
+		this.log("Registering Commands...", true);
 		CommandManager.register(this, new PaidRanksCommand(this));
 		CommandManager.register(this, new RankupCommand(this));
+		this.log("Successfully loaded plug-in!", true);
 	}
 
 	public void onDisable() {
+		this.log("Shutting down PaidRanks...", true);
 		if (this.databaseManager != null) {
 			this.databaseManager.onShutDown();
 		}
+		this.log("PaidRanks has shutdown!", true);
 	}
 
 	public String getPrefix() {
