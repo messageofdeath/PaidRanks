@@ -16,28 +16,28 @@ public class Economy_TheNewEconomy extends Economy {
 	}
 
 	@Override
-	public void withdrawMoney(UUID player, double amount) {
-		this.economy.fundsRemove(this.plugin.getServer().getOfflinePlayer(player).getName(), amount);
+	public void withdrawMoney(UUID uuid, double amount) {
+		this.economy.fundsRemove(this.plugin.getServer().getOfflinePlayer(uuid).getName(), amount);
 	}
 
 	@Override
-	public void depositMoney(UUID player, double amount) {
-		this.economy.fundsAdd(this.plugin.getServer().getOfflinePlayer(player).getName(), amount);
+	public void depositMoney(UUID uuid, double amount) {
+		this.economy.fundsAdd(this.plugin.getServer().getOfflinePlayer(uuid).getName(), amount);
 	}
 
 	@Override
-	public boolean hasEnoughMoney(UUID player, double amount) {
-		return this.economy.fundsHas(this.plugin.getServer().getOfflinePlayer(player).getName(), amount);
+	public boolean hasEnoughMoney(UUID uuid, double amount) {
+		return this.economy.fundsHas(this.plugin.getServer().getOfflinePlayer(uuid).getName(), amount);
 	}
 
 	@Override
-	public boolean hasAccount(UUID player) {
-		return this.economy.accountExists(this.plugin.getServer().getOfflinePlayer(player).getName());
+	public boolean hasAccount(UUID uuid) {
+		return this.economy.accountExists(this.plugin.getServer().getOfflinePlayer(uuid).getName());
 	}
 
 	@Override
-	public void createAccount(UUID player) {
-		this.economy.createAccount(this.plugin.getServer().getOfflinePlayer(player).getName());
+	public void createAccount(UUID uuid) {
+		this.economy.createAccount(this.plugin.getServer().getOfflinePlayer(uuid).getName());
 	}
 
 	@Override
