@@ -241,7 +241,7 @@ public class RankupCommand extends MessageCommand {
 				}
 			}
 		}
-		return null;
+		return playerGroups[0];
 	}
 
 	private void setupHelp() {
