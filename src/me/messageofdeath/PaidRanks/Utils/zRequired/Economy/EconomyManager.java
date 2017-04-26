@@ -20,8 +20,16 @@ public class EconomyManager {
 			this.economy = new Economy_SQLEconomy(this.plugin);
 			this.plugin.log("Attempting to hook with SQLEconomy!", true);
 			this.plugin.log(this.economy.setupEconomy() ? "Successfully hooked with SQLEconomy!" : "Failed to hook with SQLEconomy!", true);
+		}else if(this.plugin.getServer().getPluginManager().isPluginEnabled("iConomy")) {
+			if(this.plugin.getServer().getPluginManager().getPlugin("iConomy").getDescription().getVersion().equalsIgnoreCase("7.0.6")) {
+				this.economy = new Economy_iConomy7(this.plugin);
+				this.plugin.log("Attempting to hook with iConomy 7!", true);
+				this.plugin.log(this.economy.setupEconomy() ? "Successfully hooked with iConomy 7!" : "Failed to hook with iConomy 7!", true);
+			}else{
+				this.plugin.logError("Economy", "EconomyManager", "startEconomy()", "This version of iConomy is not supported!");
+			}
 		}else{
-			this.plugin.logError("EconomyManager", "Economy", "startEconomy()", "No supported Economy plugin!");
+			this.plugin.logError("Economy", "EconomyManager", "startEconomy()", "No supported Economy plugin!");
 		}
 	}
 	
