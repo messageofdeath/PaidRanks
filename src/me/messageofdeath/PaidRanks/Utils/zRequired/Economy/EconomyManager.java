@@ -16,6 +16,10 @@ public class EconomyManager {
 			this.economy = new Economy_TheNewEconomy(this.plugin);
 			this.plugin.log("Attempting to hook with TNE Economy!", true);
 			this.plugin.log(this.economy.setupEconomy() ? "Successfully hooked with TNE Economy!" : "Failed to hook with TNE Economy!", true);
+		}else if(this.plugin.getServer().getPluginManager().isPluginEnabled("SQLEconomy")) {
+			this.economy = new Economy_SQLEconomy(this.plugin);
+			this.plugin.log("Attempting to hook with SQLEconomy!", true);
+			this.plugin.log(this.economy.setupEconomy() ? "Successfully hooked with SQLEconomy!" : "Failed to hook with SQLEconomy!", true);
 		}else{
 			this.plugin.logError("EconomyManager", "Economy", "startEconomy()", "No supported Economy plugin!");
 		}
