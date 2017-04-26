@@ -2,6 +2,9 @@ package me.messageofdeath.PaidRanks.Utils.zRequired.Economy;
 
 import java.util.UUID;
 
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+
 import me.messageofdeath.PaidRanks.PaidRanks;
 
 public abstract class Economy {
@@ -12,17 +15,25 @@ public abstract class Economy {
 		this.plugin = plugin;
 	}
 
-	public abstract void withdrawMoney(UUID player, double amount);
+	public abstract void withdrawMoney(UUID uuid, double amount);
 	
-	public abstract void depositMoney(UUID player, double amount);
+	public abstract void depositMoney(UUID uuid, double amount);
 	
-	public abstract boolean hasEnoughMoney(UUID player, double amount);
+	public abstract boolean hasEnoughMoney(UUID uuid, double amount);
 	
-	public abstract boolean hasAccount(UUID player);
+	public abstract boolean hasAccount(UUID uuid);
 	
-	public abstract void createAccount(UUID player);
+	public abstract void createAccount(UUID uuid);
 	
 	public abstract String getFormat(double amount);
+	
+	public Player getPlayer(UUID uuid) {
+		return this.plugin.getServer().getPlayer(uuid);
+	}
+	
+	public OfflinePlayer getOfflinePlayer(UUID uuid) {
+		return this.plugin.getServer().getOfflinePlayer(uuid);
+	}
 	
 	public abstract boolean setupEconomy();
 }
