@@ -20,9 +20,9 @@ public class LadderManager {
 
 	public void removeLadder(String ladder) {
 		if (hasLadder(ladder)) {
-			this.ladders.remove(getLadder(ladder));
-			this.instance.getDatabaseManager().getRankDatabase().deleteLadder(ladder);
-			this.instance.getDatabaseManager().getRankDatabase().saveDatabase();
+			Ladder ladderx = getLadder(ladder);
+			this.ladders.remove(ladderx);
+			this.instance.getDatabaseManager().getRankDatabase().deleteLadder(ladderx.getName());
 		}
 	}
 
