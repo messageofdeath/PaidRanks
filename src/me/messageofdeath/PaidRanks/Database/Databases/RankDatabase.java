@@ -8,6 +8,7 @@ import me.messageofdeath.PaidRanks.Utils.zRequired.Database.YamlDatabase;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class RankDatabase {
+	
 	private PaidRanks instance;
 	private YamlDatabase database;
 
@@ -21,6 +22,7 @@ public class RankDatabase {
 	}
 
 	public void loadDatabase() {
+		boolean hasDefault = false;
 		String pre = "Ladders";
 		for (String ladder : this.database.getSection(pre, new ArrayList<String>())) {
 			Ladder ladderx = new Ladder(this.instance, ladder);
@@ -34,7 +36,16 @@ public class RankDatabase {
 			}
 			pre = "Ladders." + ladder + ".";
 			ladderx.setRequiresRank(this.database.getBoolean(pre + "RequiresRank", false));
-			ladderx.setDefault(this.database.getBoolean(pre + "Default", false));
+			boolean isDefault = this.database.getBoolean(pre + "Default", false);
+			if(hasDefault && isDefault) {//There is a default ladder currently & This is a default ladder
+				this.instance.logError("Ladders on load", "RankDatabase", "loadDatabase()", "There are multiple ladders with 'default' classification. Removing 'default' "
+						+ "classification from '"+ladder+"' ladder.");
+				isDefault = false;
+			}
+			if(!hasDefault && isDefault) {//No previous default ladders & This is a default ladder
+				hasDefault = true;
+			}
+			ladderx.setDefault(isDefault);
 			this.instance.getLadderManager().addLadder(ladderx);
 			pre = "Ladders";
 		}
