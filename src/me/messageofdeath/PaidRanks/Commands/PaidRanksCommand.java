@@ -472,12 +472,11 @@ public class PaidRanksCommand extends MessageCommand {
 		this.list.addOption(new Option("/pr reload - Reloads the whole plugin.", "paidranks.commands.pr.reload"));
 		this.list.addOption(new Option("/pr reload language - Reloads the language file.", "paidranks.commands.pr.reload.language"));
 		this.list.addOption(new Option("/pr reload ranks - Reloads the ranks file/mysql.", "paidranks.commands.pr.reload.ranks"));
-		this.list.addOption(new Option("/pr ladder create <ladderName> <defaultLadder(true/false)> <requiresRank(true/false)> - Creates a ladder.",
-				"paidranks.commands.pr.ladder.create"));
+		this.list.addOption(new Option("/pr ladder create <ladderName> [-default or -requiresRank] - Creates a ladder.", "paidranks.commands.pr.ladder.create"));
 		this.list.addOption(new Option("/pr ladder remove <ladderName> - Removes a ladder.", "paidranks.commands.pr.ladder.remove"));
 		this.list.addOption(new Option("/pr ladder default <ladderName> - Sets the default ladder.", "paidranks.commands.pr.ladder.default"));
 		this.list.addOption(new Option("/pr ladder list - Lists all the available ladders.", "paidranks.commands.pr.ladder.list"));
-		this.list.addOption(new Option("/pr rank add <ladderName> <rankName> <perm(noPerm)> <price> - Add a rank to a ladder.", "paidranks.commands.pr.rank.add"));
+		this.list.addOption(new Option("/pr rank add <ladderName> <rankName> [price] [permission] - Add a rank to a ladder.", "paidranks.commands.pr.rank.add"));
 		this.list.addOption(new Option("/pr rank remove <ladderName> <rankName> - Removes a rank from a ladder", "paidranks.commands.pr.rank.remove"));
 		this.list.addOption(new Option("/pr rank move <ladderName> <rankName> <ID> - Changes the position of the rank.", "paidranks.commands.pr.rank.move"));
 		this.list.addOption(new Option("/pr rank list <ladderName> - Lists all the ranks within that ladder.", "paidranks.commands.pr.rank.list"));
