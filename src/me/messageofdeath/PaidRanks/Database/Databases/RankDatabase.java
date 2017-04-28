@@ -54,6 +54,10 @@ public class RankDatabase {
 	public void deleteLadder(String ladder) {
 		this.database.set("Ladders." + ladder, null);
 	}
+	
+	public void deleteRank(String ladder, String rank) {
+		this.database.set("Ladders." + ladder + ".Ranks." + rank, null);
+	}
 
 	public void saveDatabase() {
 		instance.log("Saving Database", true);
@@ -70,22 +74,3 @@ public class RankDatabase {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -28,8 +28,9 @@ public class RankManager {
 
 	public void removeRank(String rank) {
 		if (hasRank(rank)) {
-			this.ranks.remove(getRank(rank));
-			this.instance.getDatabaseManager().getRankDatabase().saveDatabase();
+			Rank rankx = getRank(rank);
+			this.ranks.remove(rankx);
+			this.instance.getDatabaseManager().getRankDatabase().deleteRank(this.ladder, rankx.getName());
 		}
 	}
 
