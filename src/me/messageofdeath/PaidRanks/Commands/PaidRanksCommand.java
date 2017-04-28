@@ -96,7 +96,7 @@ public class PaidRanksCommand extends MessageCommand {
 				}
 			} else if (cmd.getArg(0).equalsIgnoreCase("ladder")) {
 				if (cmd.getArg(1).equalsIgnoreCase("create")) {
-					super.wrongArgs(cmd);
+					this.createLadder(cmd, cmd.getArg(2), null, null);
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
 					removeLadder(cmd, cmd.getArg(2));
 				} else if (cmd.getArg(1).equalsIgnoreCase("default")) {
@@ -132,7 +132,7 @@ public class PaidRanksCommand extends MessageCommand {
 				}
 			} else if (cmd.getArg(0).equalsIgnoreCase("ladder")) {
 				if (cmd.getArg(1).equalsIgnoreCase("create")) {
-					super.wrongArgs(cmd);
+					this.createLadder(cmd, cmd.getArg(2), cmd.getArg(3), null);
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
 					super.wrongArgs(cmd);
 				} else if (cmd.getArg(1).equalsIgnoreCase("default")) {
@@ -168,11 +168,7 @@ public class PaidRanksCommand extends MessageCommand {
 				}
 			} else if (cmd.getArg(0).equalsIgnoreCase("ladder")) {
 				if (cmd.getArg(1).equalsIgnoreCase("create")) {
-					if ((cmd.isBoolean(3)) && (cmd.isBoolean(4))) {
-						createLadder(cmd, cmd.getArg(2), cmd.getBoolean(3), cmd.getBoolean(4));
-					} else {
-						super.error(cmd, "You must use a boolean (true/false)!");
-					}
+					this.createLadder(cmd, cmd.getArg(2), cmd.getArg(3), cmd.getArg(4));
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
 					super.wrongArgs(cmd);
 				} else if (cmd.getArg(1).equalsIgnoreCase("default")) {
@@ -204,9 +200,9 @@ public class PaidRanksCommand extends MessageCommand {
 		} else if (cmd.getLength() == 6) {
 			if (cmd.getArg(0).equalsIgnoreCase("reload")) {
 				if (cmd.getArg(1).equalsIgnoreCase("language")) {
-					super.wrongArgs(cmd);
+					this.reloadLanguage(cmd);
 				} else if (cmd.getArg(1).equalsIgnoreCase("ranks")) {
-					super.wrongArgs(cmd);
+					this.reloadRanks(cmd);
 				} else {
 					help(cmd, 0);
 				}
@@ -276,16 +272,25 @@ public class PaidRanksCommand extends MessageCommand {
 		}
 	}
 
-	private void createLadder(IssuedCommand cmd, String ladder, boolean isDefault, boolean isRequiresRank) {
+	private void createLadder(IssuedCommand cmd, String ladder, String arg1, String arg2) {
 		if (cmd.getSender().hasPermission("paidranks.commands.pr.ladder.create")) {
 			if (!this.manager.hasLadder(ladder)) {
+				boolean isDefault = false, isRequiresRank = false;
+				if(arg1 != null) {
+					isDefault = arg1.equalsIgnoreCase("-default");
+					isRequiresRank = arg1.equalsIgnoreCase("-requiresRank");
+				}
+				if(arg2 != null) {
+					if(!isDefault)
+						isDefault = arg2.equalsIgnoreCase("-default");
+					if(!isRequiresRank)
+						isRequiresRank = arg2.equalsIgnoreCase("-requiresRank");
+				}
 				Ladder ladderx = new Ladder(this.instance, ladder);
 				ladderx.setRequiresRank(isRequiresRank);
 				this.manager.addLadder(ladderx);
-				super.msgPrefix(cmd,
-						LanguageSettings.Commands_PaidRanks_Ladder_Create.getSetting() + " "
-								+ ((isDefault) && (this.manager.hasDefaultLadder())
-										? LanguageSettings.Commands_PaidRanks_Ladder_CreateDefault.getSetting() : ""));
+				super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Ladder_Create.getSetting() + " " + ((isDefault) && (this.manager.hasDefaultLadder())
+						? LanguageSettings.Commands_PaidRanks_Ladder_CreateDefault.getSetting() : ""));
 				if (isDefault) {
 					this.manager.setDefaultLadder(ladder);
 				}
@@ -346,7 +351,7 @@ public class PaidRanksCommand extends MessageCommand {
 				for (Ladder ladder : this.manager.getLadders()) {
 					if (!ladder.isDefault()) {
 						super.msg(cmd, prefix + LanguageSettings.Commands_PaidRanks_Ladder_List_Format.getSetting()
-								.replaceAll("%name", this.manager.getDefaultLadder().getName()));
+								.replaceAll("%name", ladder.getName()));
 					}
 				}
 			} else {
