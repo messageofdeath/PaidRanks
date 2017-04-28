@@ -36,6 +36,7 @@ public class RankDatabase {
 			ladderx.setRequiresRank(this.database.getBoolean(pre + "RequiresRank", false));
 			ladderx.setDefault(this.database.getBoolean(pre + "Default", false));
 			this.instance.getLadderManager().addLadder(ladderx);
+			pre = "Ladders";
 		}
 	}
 
