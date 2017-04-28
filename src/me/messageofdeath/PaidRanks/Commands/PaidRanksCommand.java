@@ -12,6 +12,9 @@ import me.messageofdeath.PaidRanks.Utils.zRequired.Commands.MessageCommand;
 import me.messageofdeath.PaidRanks.Utils.zRequired.Commands.Messenger;
 import me.messageofdeath.PaidRanks.Utils.zRequired.PageLists.Option;
 import me.messageofdeath.PaidRanks.Utils.zRequired.PageLists.PageList;
+
+import java.util.ArrayList;
+
 import org.bukkit.ChatColor;
 
 public class PaidRanksCommand extends MessageCommand {
@@ -390,7 +393,18 @@ public class PaidRanksCommand extends MessageCommand {
 			if (this.manager.hasLadder(ladder)) {
 				Ladder ladderx = this.manager.getLadder(ladder);
 				if (ladderx.hasRank(rank)) {
+					ArrayList<Rank> ranks = ladderx.getRanks();
+					int index = 0;
+					for(int i = 0; i < ranks.size(); i++) {
+						if(ranks.get(i).getName().equalsIgnoreCase(rank)) {
+							index = i;
+							break;
+						}
+					}
 					ladderx.removeRank(rank);
+					for(int i = index; i < ranks.size(); i++) {
+						ranks.get(i).setPosition(ranks.get(i).getPosition() - 1);
+					}
 					super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Rank_Remove.getSetting()
 							.replaceAll("%ladder", ladderx.getName()));
 				} else {
