@@ -48,7 +48,7 @@ public class PaidRanksCommand extends MessageCommand {
 				if (cmd.isNumeric(1)) {
 					help(cmd, cmd.getInteger(1));
 				} else {
-					super.error(cmd, "You must use an integer!");
+					super.error(cmd, "You must use a positive number!");
 				}
 			} else if (cmd.getArg(0).equalsIgnoreCase("reload")) {
 				if (cmd.getArg(1).equalsIgnoreCase("language")) {
@@ -144,7 +144,7 @@ public class PaidRanksCommand extends MessageCommand {
 				}
 			} else if (cmd.getArg(0).equalsIgnoreCase("rank")) {
 				if (cmd.getArg(1).equalsIgnoreCase("add")) {
-					super.wrongArgs(cmd);
+					this.addRank(cmd, cmd.getArg(2), cmd.getArg(3), 0, "noPerm");
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
 					removeRank(cmd, cmd.getArg(2), cmd.getArg(3));
 				} else if (cmd.getArg(1).equalsIgnoreCase("move")) {
@@ -180,14 +180,18 @@ public class PaidRanksCommand extends MessageCommand {
 				}
 			} else if (cmd.getArg(0).equalsIgnoreCase("rank")) {
 				if (cmd.getArg(1).equalsIgnoreCase("add")) {
-					super.wrongArgs(cmd);
+					if(cmd.isNumeric(4)) {
+						this.addRank(cmd, cmd.getArg(2), cmd.getArg(3), cmd.getDouble(4), "noPerm");
+					}else{
+						super.error(cmd, "You must use a positive number!");
+					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
 					super.wrongArgs(cmd);
 				} else if (cmd.getArg(1).equalsIgnoreCase("move")) {
 					if (cmd.isNumeric(4)) {
 						moveRank(cmd, cmd.getArg(2), cmd.getArg(3), cmd.getInteger(4));
 					} else {
-						super.error(cmd, "You must use an integer!");
+						super.error(cmd, "You must use a positive number!");
 					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
 					super.wrongArgs(cmd);
@@ -220,10 +224,10 @@ public class PaidRanksCommand extends MessageCommand {
 				}
 			} else if (cmd.getArg(0).equalsIgnoreCase("rank")) {
 				if (cmd.getArg(1).equalsIgnoreCase("add")) {
-					if (cmd.isNumeric(5)) {
-						addRank(cmd, cmd.getArg(2), cmd.getArg(3), cmd.getArg(4), cmd.getDouble(5));
+					if (cmd.isNumeric(4)) {
+						addRank(cmd, cmd.getArg(2), cmd.getArg(3), cmd.getDouble(4), cmd.getArg(5));
 					} else {
-						super.error(cmd, "You must use an integer!");
+						super.error(cmd, "You must use a positive number!");
 					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
 					super.wrongArgs(cmd);
@@ -362,7 +366,7 @@ public class PaidRanksCommand extends MessageCommand {
 		}
 	}
 
-	private void addRank(IssuedCommand cmd, String ladder, String rank, String permission, double price) {
+	private void addRank(IssuedCommand cmd, String ladder, String rank, double price, String permission) {
 		if (cmd.getSender().hasPermission("paidranks.commands.pr.rank.add")) {
 			if (this.manager.hasLadder(ladder)) {
 				Ladder ladderx = this.manager.getLadder(ladder);
