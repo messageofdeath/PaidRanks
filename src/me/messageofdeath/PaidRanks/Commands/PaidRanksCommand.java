@@ -51,7 +51,7 @@ public class PaidRanksCommand extends MessageCommand {
 				if (cmd.isNumeric(1)) {
 					help(cmd, cmd.getInteger(1));
 				} else {
-					super.error(cmd, "You must use a positive number!");
+					super.error(cmd, LanguageSettings.Commands_MustBeNumeric.getSetting().replace("%arg", "page number"));
 				}
 			} else if (cmd.getArg(0).equalsIgnoreCase("reload")) {
 				if (cmd.getArg(1).equalsIgnoreCase("language")) {
@@ -154,7 +154,8 @@ public class PaidRanksCommand extends MessageCommand {
 					this.addRank(cmd, cmd.getArg(2), cmd.getArg(3), 0, "noPerm");
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
 					removeRank(cmd, cmd.getArg(2), cmd.getArg(3));
-				} else if (cmd.getArg(1).equalsIgnoreCase("move")) {
+				} else if (cmd.getArg(1).equalsIgnoreCase("move")
+						|| cmd.getArg(1).equalsIgnoreCase("set")) {
 					super.wrongArgs(cmd);
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
 					this.listRanks(cmd, cmd.getArg(2));
@@ -199,7 +200,7 @@ public class PaidRanksCommand extends MessageCommand {
 					if(cmd.isNumeric(4)) {
 						this.addRank(cmd, cmd.getArg(2), cmd.getArg(3), cmd.getDouble(4), "noPerm");
 					}else{
-						super.error(cmd, "You must use a positive number!");
+						super.error(cmd, LanguageSettings.Commands_MustBeNumeric.getSetting().replace("%arg", "price"));
 					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
 					this.removeRank(cmd, cmd.getArg(2), cmd.getArg(3));
@@ -207,11 +208,13 @@ public class PaidRanksCommand extends MessageCommand {
 					if (cmd.isNumeric(4)) {
 						moveRank(cmd, cmd.getArg(2), cmd.getArg(3), cmd.getInteger(4));
 					} else {
-						super.error(cmd, "You must use a positive number!");
+						super.error(cmd, LanguageSettings.Commands_MustBeNumeric.getSetting().replace("%arg", "position"));
 					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
 					this.listRanks(cmd, cmd.getArg(2));
-				} else {
+				} else if (cmd.getArg(1).equalsIgnoreCase("set")){
+					super.wrongArgs(cmd);
+				}else{
 					help(cmd, 0);
 				}
 			} else {
@@ -252,7 +255,7 @@ public class PaidRanksCommand extends MessageCommand {
 					if (cmd.isNumeric(4)) {
 						addRank(cmd, cmd.getArg(2), cmd.getArg(3), cmd.getDouble(4), cmd.getArg(5));
 					} else {
-						super.error(cmd, "You must use a positive number!");
+						super.error(cmd, LanguageSettings.Commands_MustBeNumeric.getSetting().replace("%arg", "price"));
 					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
 					this.removeRank(cmd, cmd.getArg(2), cmd.getArg(3));
@@ -260,10 +263,12 @@ public class PaidRanksCommand extends MessageCommand {
 					if (cmd.isNumeric(4)) {
 						this.moveRank(cmd, cmd.getArg(2), cmd.getArg(3), cmd.getInteger(4));
 					} else {
-						super.error(cmd, "You must use a positive number!");
+						super.error(cmd, LanguageSettings.Commands_MustBeNumeric.getSetting().replace("%arg", "position"));
 					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
 					this.listRanks(cmd, cmd.getArg(2));
+				} else if (cmd.getArg(1).equalsIgnoreCase("set")) {
+					this.setRank(cmd, cmd.getArg(2), cmd.getArg(3), cmd.getArg(4), cmd.getArg(5));
 				} else {
 					help(cmd, 0);
 				}
@@ -397,7 +402,7 @@ public class PaidRanksCommand extends MessageCommand {
 						.replace("%ladder", ladderx.getName())
 						.replace("%value", ladderx.isRequiresRank() + ""));
 			}else{
-				super.msgPrefix(cmd, LanguageSettings.Commands_LadderDoesNotExist.getSetting());
+				super.error(cmd, LanguageSettings.Commands_LadderDoesNotExist.getSetting());
 			}
 		}else{
 			super.noPerm(cmd);
@@ -447,6 +452,44 @@ public class PaidRanksCommand extends MessageCommand {
 				super.error(cmd, LanguageSettings.Commands_LadderDoesNotExist.getSetting());
 			}
 		} else {
+			super.noPerm(cmd);
+		}
+	}
+	
+	private void setRank(IssuedCommand cmd, String ladder, String rank, String type, String value) {
+		if(cmd.getSender().hasPermission("paidranks.commands.pr.rank.set")) {
+			if(this.manager.hasLadder(ladder)) {
+				Ladder ladderx = this.manager.getLadder(ladder);
+				if(ladderx.hasRank(rank)) {
+					Rank rankx = ladderx.getRank(rank);
+					if(type.equalsIgnoreCase("cost") || type.equalsIgnoreCase("price")) {
+						if(cmd.isNumeric(5)) {
+							rankx.setPrice(Double.parseDouble(value));
+							this.instance.getDatabaseManager().getRankDatabase().saveDatabase();
+							super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Rank_Set.getSetting()
+									.replace("%type", "price")
+									.replace("%value", value)
+									.replace("%rank", rankx.getName()));
+						}else{
+							super.error(cmd, LanguageSettings.Commands_MustBeNumeric.getSetting().replace("%arg", "type"));
+						}
+					}else if(type.equalsIgnoreCase("perm") || type.equalsIgnoreCase("permission")) {
+						rankx.setPermission(value);
+						this.instance.getDatabaseManager().getRankDatabase().saveDatabase();
+						super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Rank_Set.getSetting()
+								.replace("%type", "permission")
+								.replace("%value", value)
+								.replace("%rank", rankx.getName()));
+					}else{
+						super.error(cmd, LanguageSettings.Commands_PaidRanks_Rank_SetError.getSetting());
+					}
+				}else{
+					super.error(cmd, LanguageSettings.Commands_RankDoesNotExist.getSetting());
+				}
+			}else{
+				super.error(cmd, LanguageSettings.Commands_NoPermission.getSetting());
+			}
+		}else{
 			super.noPerm(cmd);
 		}
 	}
