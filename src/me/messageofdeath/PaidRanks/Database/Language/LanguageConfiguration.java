@@ -4,6 +4,7 @@ import me.messageofdeath.PaidRanks.PaidRanks;
 import me.messageofdeath.PaidRanks.Utils.zRequired.Database.YamlDatabase;
 
 public class LanguageConfiguration {
+	
 	private PaidRanks instance;
 	private YamlDatabase config;
 
@@ -36,8 +37,7 @@ public class LanguageConfiguration {
 		int j = (arrayOfLanguageSettings = LanguageSettings.values()).length;
 		for (int i = 0; i < j; i++) {
 			LanguageSettings setting = arrayOfLanguageSettings[i];
-			setting.setSetting(
-					this.config.getString(setting.getName().replaceAll("_", "."), setting.getDefaultSetting()));
+			setting.setSetting(this.config.getString(setting.getName().replaceAll("_", "."), setting.getDefaultSetting()));
 		}
 	}
 }

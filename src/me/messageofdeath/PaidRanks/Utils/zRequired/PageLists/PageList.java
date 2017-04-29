@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.bukkit.command.CommandSender;
 
 public class PageList {
+	
 	private ArrayList<Option> options = new ArrayList<Option>();
 	private int amountPerPage;
 

@@ -6,6 +6,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 
 public class Vector {
+	
 	private String worldName;
 	private Location loc;
 
@@ -33,8 +34,7 @@ public class Vector {
 	}
 
 	public void updateLocation() {
-		this.loc = new Location(Bukkit.getWorld(getWorldName()), this.loc.getX(), this.loc.getY(), this.loc.getZ(),
-				this.loc.getYaw(), this.loc.getPitch());
+		this.loc = new Location(Bukkit.getWorld(getWorldName()), this.loc.getX(), this.loc.getY(), this.loc.getZ(), this.loc.getYaw(), this.loc.getPitch());
 	}
 
 	public Location getLocation() {
@@ -93,21 +93,18 @@ public class Vector {
 	}
 
 	public static boolean compareBlock(Vector a, Vector b) {
-		return (a.getBlockX() == b.getBlockX()) && (a.getBlockY() == b.getBlockY()) && (a.getBlockZ() == b.getBlockZ())
-				&& (a.getWorldName().equalsIgnoreCase(b.getWorldName()));
+		return (a.getBlockX() == b.getBlockX()) && (a.getBlockY() == b.getBlockY()) && (a.getBlockZ() == b.getBlockZ()) && (a.getWorldName().equalsIgnoreCase(b.getWorldName()));
 	}
 
 	public static boolean compareExact(Vector a, Vector b) {
-		return (a.getX() == b.getX()) && (a.getY() == b.getY()) && (a.getZ() == b.getZ())
-				&& (a.getWorldName().equalsIgnoreCase(b.getWorldName()));
+		return (a.getX() == b.getX()) && (a.getY() == b.getY()) && (a.getZ() == b.getZ()) && (a.getWorldName().equalsIgnoreCase(b.getWorldName()));
 	}
 
 	public static Vector getStringToVector(String a) {
 		if (!a.isEmpty()) {
 			String[] b = a.split(",");
 			if (b.length == 6) {
-				return new Vector(b[0], Double.parseDouble(b[1]), Double.parseDouble(b[2]), Double.parseDouble(b[3]),
-						Float.parseFloat(b[4]), Float.parseFloat(b[5]));
+				return new Vector(b[0], Double.parseDouble(b[1]), Double.parseDouble(b[2]), Double.parseDouble(b[3]), Float.parseFloat(b[4]), Float.parseFloat(b[5]));
 			}
 			if (b.length == 4) {
 				return new Vector(b[0], Double.parseDouble(b[1]), Double.parseDouble(b[2]), Double.parseDouble(b[3]));
@@ -117,7 +114,6 @@ public class Vector {
 	}
 
 	public static String getVectorToString(Vector a) {
-		return a.getWorldName() + "," + a.getX() + "," + a.getY() + "," + a.getZ() + "," + a.getYaw() + ","
-				+ a.getPitch();
+		return a.getWorldName() + "," + a.getX() + "," + a.getY() + "," + a.getZ() + "," + a.getYaw() + "," + a.getPitch();
 	}
 }

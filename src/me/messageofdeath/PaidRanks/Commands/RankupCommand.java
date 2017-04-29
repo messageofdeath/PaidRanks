@@ -97,20 +97,16 @@ public class RankupCommand extends MessageCommand {
 								Rank rankx = ladderx.getNextRank(group);
 								if (PaidRanksAPI.hasAccount(uuid)) {
 									if (PaidRanksAPI.hasEnoughMoney(uuid, rankx.getPrice())) {
-										if ((!rankx.hasPermission()) || ((rankx.hasPermission())
-												&& (cmd.getSender().hasPermission(rankx.getPermission())))) {
+										if ((!rankx.hasPermission()) || ((rankx.hasPermission()) && (cmd.getSender().hasPermission(rankx.getPermission())))) {
 											PaidRanksAPI.withdrawMoney(uuid, rankx.getPrice());
 											PaidRanksAPI.setGroup(uuid, world, group, rankx.getName());
-											super.msgPrefix(cmd, LanguageSettings.Commands_Rankup_Rankup.getSetting()
-													.replace("%rank", rankx.getName()));
+											super.msgPrefix(cmd, LanguageSettings.Commands_Rankup_Rankup.getSetting().replace("%rank", rankx.getName()));
 										} else {
 											super.error(cmd, LanguageSettings.Commands_Rankup_NoPerm.getSetting());
 										}
 									} else {
-										super.error(cmd,
-												LanguageSettings.Commands_Rankup_NoMoney.getSetting()
-														.replace("%cash", PaidRanksAPI.getFormat(rankx.getPrice()))
-														.replace("%rank", rankx.getName()));
+										super.error(cmd, LanguageSettings.Commands_Rankup_NoMoney.getSetting().replace("%cash", PaidRanksAPI.getFormat(rankx.getPrice()))
+												.replace("%rank", rankx.getName()));
 									}
 								} else {
 									PaidRanksAPI.createAccount(uuid);
@@ -143,16 +139,12 @@ public class RankupCommand extends MessageCommand {
 			String prefix = LanguageSettings.Commands_Rankup_Ladder_List_Prefix.getSetting();
 			if (!this.manager.getLadders().isEmpty()) {
 				if (this.manager.hasDefaultLadder()) {
-					super.msg(cmd,
-							prefix + LanguageSettings.Commands_Rankup_Ladder_List_Format.getSetting().replace(
-									"%name", new StringBuilder(
-											String.valueOf(this.manager.getDefaultLadder().getName()))
-													.append(" &3Default").toString()));
+					super.msg(cmd, prefix + LanguageSettings.Commands_Rankup_Ladder_List_Format.getSetting()
+							.replace("%name", this.manager.getDefaultLadder().getName()) + " &3Default");
 				}
 				for (Ladder ladder : this.manager.getLadders()) {
 					if (!ladder.isDefault()) {
-						super.msg(cmd, prefix + LanguageSettings.Commands_Rankup_Ladder_List_Format.getSetting()
-								.replace("%name", this.manager.getDefaultLadder().getName()));
+						super.msg(cmd, prefix + LanguageSettings.Commands_Rankup_Ladder_List_Format.getSetting().replace("%name", ladder.getName()));
 					}
 				}
 			} else {
@@ -167,15 +159,12 @@ public class RankupCommand extends MessageCommand {
 		if (cmd.getSender().hasPermission("paidranks.commands.ru.list.rank")) {
 			if (this.manager.hasLadder(ladder)) {
 				Ladder ladderx = this.manager.getLadder(ladder);
-				super.msgPrefix(cmd, LanguageSettings.Commands_Rankup_Rank_List_Top.getSetting().replace("%ladder",
-						ladderx.getName()));
+				super.msgPrefix(cmd, LanguageSettings.Commands_Rankup_Rank_List_Top.getSetting().replace("%ladder", ladderx.getName()));
 				String prefix = LanguageSettings.Commands_Rankup_Rank_List_Prefix.getSetting();
 				if (!ladderx.getRanks().isEmpty()) {
 					for (Rank rank : ladderx.getRanks()) {
-						super.msg(cmd,
-								prefix + LanguageSettings.Commands_Rankup_Rank_List_Format.getSetting()
-										.replace("%position",
-												new StringBuilder(String.valueOf(rank.getPosition())).toString())
+						super.msg(cmd, prefix + LanguageSettings.Commands_Rankup_Rank_List_Format.getSetting()
+										.replace("%position", rank.getPosition() + "")
 										.replace("%name", rank.getName())
 										.replace("%cash", PaidRanksAPI.getFormat(rank.getPrice())));
 					}
@@ -198,10 +187,8 @@ public class RankupCommand extends MessageCommand {
 					Ladder ladderx = this.manager.getLadder(ladder);
 					String group = getApplicableGroup(PaidRanksAPI.getGroups(cmd.getPlayer().getUniqueId(), null), ladderx.getRanks());
 					Rank groupx = null;
-					if ((!ladderx.isRequiresRank()) || (ladderx.hasRank(group))) {
-						if (ladderx.getNextRank(group) != null) {
-							groupx = ladderx.getNextRank(group);
-						}
+					if (!ladderx.isRequiresRank() || ladderx.isRequiresRank() && ladderx.hasRank(group)) {
+						groupx = ladderx.getNextRank(group);
 					} else {
 						super.error(cmd, LanguageSettings.Commands_Rankup_NotCompatible.getSetting());
 						return;
@@ -212,13 +199,9 @@ public class RankupCommand extends MessageCommand {
 						super.msgPrefix(cmd, LanguageSettings.Commands_Rankup_NextRankTop.getSetting());
 						super.msg(cmd, prefix + "Rank:" + suffix + " " + groupx.getName());
 						super.msg(cmd, prefix + "Price:" + suffix + " " + PaidRanksAPI.getFormat(groupx.getPrice()));
-						super.msg(cmd,
-								prefix + "Permission:" + " "
-										+ ((!groupx.hasPermission()) || ((groupx.hasPermission())
-												&& (cmd.getSender().hasPermission(groupx.getPermission()))) ? "&aYes"
-														: "&cNo"));
-						super.msg(cmd, prefix + "Able to buy:" + " "
-								+ (PaidRanksAPI.hasEnoughMoney(uuid, groupx.getPrice()) ? "&aYes" : "&cNo"));
+						super.msg(cmd, prefix + "Permission:" + " " + ((!groupx.hasPermission()) || ((groupx.hasPermission())
+								&& (cmd.getSender().hasPermission(groupx.getPermission()))) ? "&aYes" : "&cNo"));
+						super.msg(cmd, prefix + "Able to buy:" + " " + (PaidRanksAPI.hasEnoughMoney(uuid, groupx.getPrice()) ? "&aYes" : "&cNo"));
 					} else {
 						super.error(cmd, LanguageSettings.Commands_Rankup_HighRank.getSetting());
 					}
@@ -255,13 +238,11 @@ public class RankupCommand extends MessageCommand {
 	private void help(IssuedCommand cmd, int page) {
 		if (cmd.getSender().hasPermission("paidranks.commands.ru.help")) {
 			page = this.list.checkPage(cmd.getSender(), page);
-			super.msgPrefix(cmd,
-					"Available Commands (" + (page + 1) + "/" + this.list.getTotalPages(cmd.getSender()) + "):");
+			super.msgPrefix(cmd, "Available Commands (" + (page + 1) + "/" + this.list.getTotalPages(cmd.getSender()) + "):");
 			super.msg(cmd, "<> are required | [] are not required");
 			String dud = ChatColor.DARK_GRAY + "    - ";
 			for (String m : this.list.getOptions(cmd.getSender(), page)) {
-				m = m.replace("/", ChatColor.DARK_GREEN + "/").replace("-",
-						ChatColor.AQUA + "-" + ChatColor.GREEN);
+				m = m.replace("/", ChatColor.DARK_GREEN + "/").replace("-", ChatColor.AQUA + "-" + ChatColor.GREEN);
 				int index = m.indexOf(' ');
 				if (index < m.length()) {
 					String prefix = m.substring(0, index) + ChatColor.GREEN;

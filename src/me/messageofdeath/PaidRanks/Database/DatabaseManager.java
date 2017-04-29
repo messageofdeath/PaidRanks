@@ -6,6 +6,7 @@ import me.messageofdeath.PaidRanks.Database.Language.LanguageConfiguration;
 import me.messageofdeath.PaidRanks.PaidRanks;
 
 public class DatabaseManager {
+	
 	private PaidRanks instance;
 	private Configuration configuration;
 	private LanguageConfiguration languageConfiguration;

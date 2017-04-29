@@ -6,6 +6,7 @@ import me.messageofdeath.PaidRanks.Utils.RankManager.Rank;
 import me.messageofdeath.PaidRanks.Utils.RankManager.RankManager;
 
 public class Ladder {
+	
 	private PaidRanks instance;
 	private String name;
 	private boolean isDefault;

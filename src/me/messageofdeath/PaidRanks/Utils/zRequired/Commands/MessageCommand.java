@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 public abstract class MessageCommand {
+	
 	public Messenger messenger = null;
 
 	@Command(name = "")

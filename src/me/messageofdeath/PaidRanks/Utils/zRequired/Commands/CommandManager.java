@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandManager {
+	
 	private static HashMap<String, CommandVariables> commands = null;
 
 	public static void register(JavaPlugin plugin, MessageCommand command) {

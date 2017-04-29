@@ -109,10 +109,6 @@ public class PaidRanks extends JavaPlugin {
 	public LadderManager getLadderManager() {
 		return this.ladderManager;
 	}
-
-/*	public Vault getVault() {
-		return this.vault;
-	}*/
 	
 	public EconomyManager getEconomyManager() {
 		return this.economyManager;

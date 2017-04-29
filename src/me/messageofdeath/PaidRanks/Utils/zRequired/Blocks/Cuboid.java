@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 public class Cuboid {
+	
 	private Location loc1;
 	private Location loc2;
 	private String worldName;
@@ -29,10 +30,8 @@ public class Cuboid {
 	}
 
 	public void updateLocations() {
-		this.loc1 = new Location(Bukkit.getWorld(this.worldName), this.loc1.getBlockX(), this.loc1.getBlockY(),
-				this.loc1.getBlockZ());
-		this.loc2 = new Location(Bukkit.getWorld(this.worldName), this.loc2.getBlockX(), this.loc2.getBlockY(),
-				this.loc2.getBlockZ());
+		this.loc1 = new Location(Bukkit.getWorld(this.worldName), this.loc1.getBlockX(), this.loc1.getBlockY(), this.loc1.getBlockZ());
+		this.loc2 = new Location(Bukkit.getWorld(this.worldName), this.loc2.getBlockX(), this.loc2.getBlockY(), this.loc2.getBlockZ());
 	}
 
 	public boolean contains(Location loc) {
@@ -44,9 +43,8 @@ public class Cuboid {
 	public static String getCuboidToString(Cuboid cuboid) {
 		Location min = cuboid.getMinimumPoint();
 		Location max = cuboid.getMaximumPoint();
-		return Vector.getVectorToString(new Vector(cuboid.worldName, min.getBlockX(), min.getBlockY(), min.getBlockZ()))
-				+ ";" + Vector.getVectorToString(
-						new Vector(cuboid.worldName, max.getBlockX(), max.getBlockY(), max.getBlockZ()));
+		return Vector.getVectorToString(new Vector(cuboid.worldName, min.getBlockX(), min.getBlockY(), min.getBlockZ()))+ ";" + 
+				Vector.getVectorToString(new Vector(cuboid.worldName, max.getBlockX(), max.getBlockY(), max.getBlockZ()));
 	}
 
 	public static Cuboid getStringToCuboid(String cube) {

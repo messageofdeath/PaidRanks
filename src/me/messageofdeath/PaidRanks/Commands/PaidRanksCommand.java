@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import org.bukkit.ChatColor;
 
 public class PaidRanksCommand extends MessageCommand {
+	
 	private PaidRanks instance;
 	private LadderManager manager;
 	private PageList list;
@@ -315,11 +316,9 @@ public class PaidRanksCommand extends MessageCommand {
 				Ladder ladderx = this.manager.getLadder(ladder);
 				this.manager.removeLadder(ladder);
 				if (ladderx.isDefault()) {
-					super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Ladder_RemoveDefault.getSetting()
-							.replaceAll("%ladder", ladderx.getName()));
+					super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Ladder_RemoveDefault.getSetting().replace("%ladder", ladderx.getName()));
 				} else {
-					super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Ladder_Remove.getSetting()
-							.replaceAll("%ladder", ladderx.getName()));
+					super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Ladder_Remove.getSetting().replace("%ladder", ladderx.getName()));
 				}
 			} else {
 				super.error(cmd, LanguageSettings.Commands_LadderDoesNotExist.getSetting());
@@ -333,8 +332,7 @@ public class PaidRanksCommand extends MessageCommand {
 		if (cmd.getSender().hasPermission("paidranks.commands.pr.ladder.default")) {
 			if (this.manager.hasLadder(ladder)) {
 				this.manager.setDefaultLadder(ladder);
-				super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Ladder_DefaultLadder.getSetting()
-						.replaceAll("%ladder", this.manager.getDefaultLadder().getName()));
+				super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Ladder_DefaultLadder.getSetting().replace("%ladder", this.manager.getDefaultLadder().getName()));
 			} else {
 				super.error(cmd, LanguageSettings.Commands_LadderDoesNotExist.getSetting());
 			}
@@ -349,16 +347,12 @@ public class PaidRanksCommand extends MessageCommand {
 			String prefix = LanguageSettings.Commands_PaidRanks_Ladder_List_Prefix.getSetting();
 			if (!this.manager.getLadders().isEmpty()) {
 				if (this.manager.hasDefaultLadder()) {
-					super.msg(cmd,
-							prefix + LanguageSettings.Commands_PaidRanks_Ladder_List_Format.getSetting().replaceAll(
-									"%name", new StringBuilder(
-											String.valueOf(this.manager.getDefaultLadder().getName()))
-													.append(" &3Default").toString()));
+					super.msg(cmd, prefix + LanguageSettings.Commands_PaidRanks_Ladder_List_Format.getSetting()
+							.replace("%name", this.manager.getDefaultLadder().getName()) + " &3Default");
 				}
 				for (Ladder ladder : this.manager.getLadders()) {
 					if (!ladder.isDefault()) {
-						super.msg(cmd, prefix + LanguageSettings.Commands_PaidRanks_Ladder_List_Format.getSetting()
-								.replaceAll("%name", ladder.getName()));
+						super.msg(cmd, prefix + LanguageSettings.Commands_PaidRanks_Ladder_List_Format.getSetting().replace("%name", ladder.getName()));
 					}
 				}
 			} else {
@@ -375,8 +369,7 @@ public class PaidRanksCommand extends MessageCommand {
 				Ladder ladderx = this.manager.getLadder(ladder);
 				if (!ladderx.hasRank(rank)) {
 					ladderx.addRank(rank, permission, price);
-					super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Rank_Add.getSetting().replaceAll("%ladder",
-							ladderx.getName()));
+					super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Rank_Add.getSetting().replace("%ladder", ladderx.getName()));
 				} else {
 					super.error(cmd, LanguageSettings.Commands_RankExists.getSetting());
 				}
@@ -405,8 +398,7 @@ public class PaidRanksCommand extends MessageCommand {
 					for(int i = index; i < ranks.size(); i++) {
 						ranks.get(i).setPosition(ranks.get(i).getPosition() - 1);
 					}
-					super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Rank_Remove.getSetting()
-							.replaceAll("%ladder", ladderx.getName()));
+					super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Rank_Remove.getSetting().replace("%ladder", ladderx.getName()));
 				} else {
 					super.error(cmd, LanguageSettings.Commands_RankDoesNotExist.getSetting());
 				}
@@ -427,7 +419,7 @@ public class PaidRanksCommand extends MessageCommand {
 						ladderx.setPosition(ladderx.getRank(rank), id);
 						super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Rank_Move.getSetting());
 					} else {
-						super.error(cmd, LanguageSettings.Commands_PaidRanks_Rank_MoveError.getSetting().replaceAll("%id", ladderx.getRanks().size() + ""));
+						super.error(cmd, LanguageSettings.Commands_PaidRanks_Rank_MoveError.getSetting().replace("%id", ladderx.getRanks().size() + ""));
 					}
 				} else {
 					super.error(cmd, LanguageSettings.Commands_RankDoesNotExist.getSetting());
@@ -444,16 +436,15 @@ public class PaidRanksCommand extends MessageCommand {
 		if (cmd.getSender().hasPermission("paidranks.commands.pr.rank.list")) {
 			if (this.manager.hasLadder(ladder)) {
 				Ladder ladderx = this.manager.getLadder(ladder);
-				super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Rank_List_Top.getSetting()
-						.replaceAll("%ladder", ladderx.getName()));
+				super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Rank_List_Top.getSetting().replace("%ladder", ladderx.getName()));
 				String prefix = LanguageSettings.Commands_PaidRanks_Rank_List_Prefix.getSetting();
 				if (!ladderx.getRanks().isEmpty()) {
 					for (Rank rank : ladderx.getRanks()) {
 						super.msg(cmd, prefix+ LanguageSettings.Commands_PaidRanks_Rank_List_Format.getSetting()
-								.replaceAll("%position", rank.getPosition() + "")
-								.replaceAll("%name", rank.getName())
-								.replaceAll("%cash", PaidRanksAPI.getFormat(rank.getPrice()))
-								.replaceAll("%permission", rank.getPermission()));
+								.replace("%position", rank.getPosition() + "")
+								.replace("%name", rank.getName())
+								.replace("%cash", PaidRanksAPI.getFormat(rank.getPrice()))
+								.replace("%permission", rank.getPermission()));
 					}
 				} else {
 					super.msg(cmd, prefix + LanguageSettings.Commands_PaidRanks_Rank_NotAvailable.getSetting());
@@ -485,13 +476,12 @@ public class PaidRanksCommand extends MessageCommand {
 	private void help(IssuedCommand cmd, int page) {
 		if (cmd.getSender().hasPermission("paidranks.commands.pr.help")) {
 			page = this.list.checkPage(cmd.getSender(), page);
-			super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Help_Top.getSetting().replaceAll("%page", (page + 1) + "")
-					.replaceAll("%totalpages", this.list.getTotalPages(cmd.getSender()) + ""));
+			super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Help_Top.getSetting().replace("%page", (page + 1) + "")
+					.replace("%totalpages", this.list.getTotalPages(cmd.getSender()) + ""));
 			super.msg(cmd, LanguageSettings.Commands_PaidRanks_Help_Disclaimer.getSetting());
 			String dud = ChatColor.DARK_GRAY + "    - ";
 			for (String m : this.list.getOptions(cmd.getSender(), page)) {
-				m = m.replaceAll("/", ChatColor.DARK_GREEN + "/").replaceAll("-",
-						ChatColor.AQUA + "-" + ChatColor.GREEN);
+				m = m.replace("/", ChatColor.DARK_GREEN + "/").replace("-", ChatColor.AQUA + "-" + ChatColor.GREEN);
 				int index = m.indexOf(' ');
 				if (index < m.length()) {
 					String prefix = m.substring(0, index) + ChatColor.GREEN;

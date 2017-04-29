@@ -1,6 +1,7 @@
 package me.messageofdeath.PaidRanks.Utils.RankManager;
 
 public class Rank {
+	
 	private String name;
 	private String permission;
 	private int position;
@@ -42,8 +43,7 @@ public class Rank {
 	}
 
 	public boolean hasPermission() {
-		return (!this.permission.equalsIgnoreCase("")) && (!this.permission.equalsIgnoreCase("noPerm"))
-				&& (this.permission != null);
+		return (!this.permission.equalsIgnoreCase("")) && (!this.permission.equalsIgnoreCase("noPerm")) && (this.permission != null);
 	}
 
 	public String toString() {
@@ -52,7 +52,6 @@ public class Rank {
 
 	public static Rank toRank(String input) {
 		String[] args = input.split(",");
-		return args.length == 4 ? new Rank(args[0], args[1], Integer.parseInt(args[2]), Double.parseDouble(args[3]))
-				: null;
+		return args.length == 4 ? new Rank(args[0], args[1], Integer.parseInt(args[2]), Double.parseDouble(args[3])) : null;
 	}
 }

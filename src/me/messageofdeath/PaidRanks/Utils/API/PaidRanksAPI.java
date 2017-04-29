@@ -122,20 +122,3 @@ public class PaidRanksAPI {
 		PaidRanksAPI.permissions = permissions;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -8,6 +8,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 public class IssuedCommand {
+	
 	private String[] args;
 	private String commandLabel;
 	private CommandSender sender;

@@ -3,6 +3,7 @@ package me.messageofdeath.PaidRanks.Utils.zRequired.PageLists;
 import org.bukkit.command.CommandSender;
 
 public class Option {
+	
 	private String text;
 	private String perm;
 

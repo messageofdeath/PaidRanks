@@ -6,6 +6,7 @@ import java.util.Comparator;
 import me.messageofdeath.PaidRanks.PaidRanks;
 
 public class RankManager {
+	
 	private PaidRanks instance;
 	private String ladder;
 	private ArrayList<Rank> ranks;
@@ -67,20 +68,6 @@ public class RankManager {
 		}
 		return i;
 	}
-
-	/*public static ArrayList<Rank> toRanks(String input) {
-		if ((!input.isEmpty()) && (input != null)) {
-			ArrayList<Rank> ranks = new ArrayList<Rank>();
-			String[] arrayOfString;
-			int j = (arrayOfString = input.split(";")).length;
-			for (int i = 0; i < j; i++) {
-				String rank = arrayOfString[i];
-				ranks.add(Rank.toRank(rank));
-			}
-			return ranks;
-		}
-		return new ArrayList<Rank>();
-	}*/
 
 	public void setPosition(Rank rank, int position) {
 		ArrayList<Rank> ranks = this.ranks;

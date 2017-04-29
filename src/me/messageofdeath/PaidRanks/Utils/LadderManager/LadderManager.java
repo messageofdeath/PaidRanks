@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import me.messageofdeath.PaidRanks.PaidRanks;
 
 public class LadderManager {
+	
 	private PaidRanks instance;
 	private ArrayList<Ladder> ladders;
 

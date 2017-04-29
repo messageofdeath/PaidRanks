@@ -4,6 +4,7 @@ import me.messageofdeath.PaidRanks.PaidRanks;
 import me.messageofdeath.PaidRanks.Utils.zRequired.Database.YamlDatabase;
 
 public class Configuration {
+	
 	private PaidRanks instance;
 	private YamlDatabase config;
 	private boolean isGlobal;

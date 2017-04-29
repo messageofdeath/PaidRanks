@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Messenger {
+	
 	public String name;
 
 	public Messenger(String prefix) {

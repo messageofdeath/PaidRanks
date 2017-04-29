@@ -13,6 +13,7 @@ import me.messageofdeath.PaidRanks.PaidRanks;
 
 @Deprecated
 public class Vault {
+	
 	private Economy economy;
 	private Permission permission;
 	private PaidRanks plugin;

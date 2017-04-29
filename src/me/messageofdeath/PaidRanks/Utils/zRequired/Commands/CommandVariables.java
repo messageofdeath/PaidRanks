@@ -1,6 +1,7 @@
 package me.messageofdeath.PaidRanks.Utils.zRequired.Commands;
 
 public class CommandVariables {
+	
 	private MessageCommand cmd;
 	private Command annotation;
 
