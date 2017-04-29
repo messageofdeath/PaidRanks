@@ -102,7 +102,7 @@ public class RankupCommand extends MessageCommand {
 											PaidRanksAPI.withdrawMoney(uuid, rankx.getPrice());
 											PaidRanksAPI.setGroup(uuid, world, group, rankx.getName());
 											super.msgPrefix(cmd, LanguageSettings.Commands_Rankup_Rankup.getSetting()
-													.replaceAll("%rank", rankx.getName()));
+													.replace("%rank", rankx.getName()));
 										} else {
 											super.error(cmd, LanguageSettings.Commands_Rankup_NoPerm.getSetting());
 										}
@@ -144,7 +144,7 @@ public class RankupCommand extends MessageCommand {
 			if (!this.manager.getLadders().isEmpty()) {
 				if (this.manager.hasDefaultLadder()) {
 					super.msg(cmd,
-							prefix + LanguageSettings.Commands_Rankup_Ladder_List_Format.getSetting().replaceAll(
+							prefix + LanguageSettings.Commands_Rankup_Ladder_List_Format.getSetting().replace(
 									"%name", new StringBuilder(
 											String.valueOf(this.manager.getDefaultLadder().getName()))
 													.append(" &3Default").toString()));
@@ -152,7 +152,7 @@ public class RankupCommand extends MessageCommand {
 				for (Ladder ladder : this.manager.getLadders()) {
 					if (!ladder.isDefault()) {
 						super.msg(cmd, prefix + LanguageSettings.Commands_Rankup_Ladder_List_Format.getSetting()
-								.replaceAll("%name", this.manager.getDefaultLadder().getName()));
+								.replace("%name", this.manager.getDefaultLadder().getName()));
 					}
 				}
 			} else {
@@ -167,17 +167,17 @@ public class RankupCommand extends MessageCommand {
 		if (cmd.getSender().hasPermission("paidranks.commands.ru.list.rank")) {
 			if (this.manager.hasLadder(ladder)) {
 				Ladder ladderx = this.manager.getLadder(ladder);
-				super.msgPrefix(cmd, LanguageSettings.Commands_Rankup_Rank_List_Top.getSetting().replaceAll("%ladder",
+				super.msgPrefix(cmd, LanguageSettings.Commands_Rankup_Rank_List_Top.getSetting().replace("%ladder",
 						ladderx.getName()));
 				String prefix = LanguageSettings.Commands_Rankup_Rank_List_Prefix.getSetting();
 				if (!ladderx.getRanks().isEmpty()) {
 					for (Rank rank : ladderx.getRanks()) {
 						super.msg(cmd,
 								prefix + LanguageSettings.Commands_Rankup_Rank_List_Format.getSetting()
-										.replaceAll("%position",
+										.replace("%position",
 												new StringBuilder(String.valueOf(rank.getPosition())).toString())
-										.replaceAll("%name", rank.getName())
-										.replaceAll("%cash", PaidRanksAPI.getFormat(rank.getPrice())));
+										.replace("%name", rank.getName())
+										.replace("%cash", PaidRanksAPI.getFormat(rank.getPrice())));
 					}
 				} else {
 					super.msg(cmd, prefix + LanguageSettings.Commands_Rankup_Rank_NotAvailable.getSetting());
@@ -260,7 +260,7 @@ public class RankupCommand extends MessageCommand {
 			super.msg(cmd, "<> are required | [] are not required");
 			String dud = ChatColor.DARK_GRAY + "    - ";
 			for (String m : this.list.getOptions(cmd.getSender(), page)) {
-				m = m.replaceAll("/", ChatColor.DARK_GREEN + "/").replaceAll("-",
+				m = m.replace("/", ChatColor.DARK_GREEN + "/").replace("-",
 						ChatColor.AQUA + "-" + ChatColor.GREEN);
 				int index = m.indexOf(' ');
 				if (index < m.length()) {
