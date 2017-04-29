@@ -20,8 +20,8 @@ public class LanguageConfiguration {
 		int j = (arrayOfLanguageSettings = LanguageSettings.values()).length;
 		for (int i = 0; i < j; i++) {
 			LanguageSettings setting = arrayOfLanguageSettings[i];
-			if (!this.config.contains(setting.getName().replaceAll("_", "."))) {
-				this.config.set(setting.getName().replaceAll("_", "."), setting.getDefaultSetting());
+			if (!this.config.contains(setting.getName().replace("_", "."))) {
+				this.config.set(setting.getName().replace("_", "."), setting.getDefaultSetting());
 			}
 		}
 		this.config.save();
@@ -37,7 +37,7 @@ public class LanguageConfiguration {
 		int j = (arrayOfLanguageSettings = LanguageSettings.values()).length;
 		for (int i = 0; i < j; i++) {
 			LanguageSettings setting = arrayOfLanguageSettings[i];
-			setting.setSetting(this.config.getString(setting.getName().replaceAll("_", "."), setting.getDefaultSetting()));
+			setting.setSetting(this.config.getString(setting.getName().replace("_", "."), setting.getDefaultSetting()));
 		}
 	}
 }
