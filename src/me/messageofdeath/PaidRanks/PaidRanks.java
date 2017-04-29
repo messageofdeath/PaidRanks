@@ -39,7 +39,7 @@ public class PaidRanks extends JavaPlugin {
 		this.log("Registering Commands...", true);
 		CommandManager.register(this, new PaidRanksCommand(this));
 		CommandManager.register(this, new RankupCommand(this));
-		this.log("Successfully loaded plug-in!", true);
+		this.log("Successfully loaded PaidRanks!", true);
 	}
 
 	public void onDisable() {
