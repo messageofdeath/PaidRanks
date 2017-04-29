@@ -16,15 +16,19 @@ public class LanguageConfiguration {
 		this.config = new YamlDatabase(this.instance, "language");
 		this.config.onStartUp();
 		this.config.saveOnSet = false;
+		boolean changes = false;
 		LanguageSettings[] arrayOfLanguageSettings;
 		int j = (arrayOfLanguageSettings = LanguageSettings.values()).length;
 		for (int i = 0; i < j; i++) {
 			LanguageSettings setting = arrayOfLanguageSettings[i];
 			if (!this.config.contains(setting.getName().replace("_", "."))) {
+				changes = true;
 				this.config.set(setting.getName().replace("_", "."), setting.getDefaultSetting());
 			}
 		}
-		this.config.save();
+		if(changes) {
+			this.config.save();
+		}
 		this.config.saveOnSet = true;
 	}
 
