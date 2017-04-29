@@ -38,9 +38,8 @@ public class PaidRanksCommand extends MessageCommand {
 		} else if (cmd.getLength() == 1) {
 			if (cmd.getArg(0).equalsIgnoreCase("reload")) {
 				reloadPlugin(cmd);
-			} else if (cmd.getArg(0).equalsIgnoreCase("ladder")) {
-				super.wrongArgs(cmd);
-			} else if (cmd.getArg(0).equalsIgnoreCase("rank")) {
+			} else if (cmd.getArg(0).equalsIgnoreCase("ladder")
+					|| cmd.getArg(0).equalsIgnoreCase("rank")) {
 				super.wrongArgs(cmd);
 			} else if (cmd.getArg(0).equalsIgnoreCase("help")) {
 				help(cmd, 0);
@@ -63,11 +62,10 @@ public class PaidRanksCommand extends MessageCommand {
 					help(cmd, 0);
 				}
 			} else if (cmd.getArg(0).equalsIgnoreCase("ladder")) {
-				if (cmd.getArg(1).equalsIgnoreCase("create")) {
-					super.wrongArgs(cmd);
-				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
-					super.wrongArgs(cmd);
-				} else if (cmd.getArg(1).equalsIgnoreCase("default")) {
+				if (cmd.getArg(1).equalsIgnoreCase("create")
+						|| cmd.getArg(1).equalsIgnoreCase("remove")
+						|| cmd.getArg(1).equalsIgnoreCase("set")
+						|| cmd.getArg(1).equalsIgnoreCase("toggle")) {
 					super.wrongArgs(cmd);
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
 					listLadders(cmd);
@@ -75,13 +73,11 @@ public class PaidRanksCommand extends MessageCommand {
 					help(cmd, 0);
 				}
 			} else if (cmd.getArg(0).equalsIgnoreCase("rank")) {
-				if (cmd.getArg(1).equalsIgnoreCase("add")) {
-					super.wrongArgs(cmd);
-				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
-					super.wrongArgs(cmd);
-				} else if (cmd.getArg(1).equalsIgnoreCase("move")) {
-					super.wrongArgs(cmd);
-				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
+				if (cmd.getArg(1).equalsIgnoreCase("add")
+						|| cmd.getArg(1).equalsIgnoreCase("remove")
+						|| cmd.getArg(1).equalsIgnoreCase("set")
+						|| cmd.getArg(1).equalsIgnoreCase("move")
+						|| cmd.getArg(1).equalsIgnoreCase("list")) {
 					super.wrongArgs(cmd);
 				} else {
 					help(cmd, 0);
@@ -91,9 +87,8 @@ public class PaidRanksCommand extends MessageCommand {
 			}
 		} else if (cmd.getLength() == 3) {
 			if (cmd.getArg(0).equalsIgnoreCase("reload")) {
-				if (cmd.getArg(1).equalsIgnoreCase("language")) {
-					super.wrongArgs(cmd);
-				} else if (cmd.getArg(1).equalsIgnoreCase("ranks")) {
+				if (cmd.getArg(1).equalsIgnoreCase("language")
+						|| cmd.getArg(1).equalsIgnoreCase("ranks")) {
 					super.wrongArgs(cmd);
 				} else {
 					help(cmd, 0);
@@ -103,19 +98,18 @@ public class PaidRanksCommand extends MessageCommand {
 					this.createLadder(cmd, cmd.getArg(2), null, null);
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
 					removeLadder(cmd, cmd.getArg(2));
-				} else if (cmd.getArg(1).equalsIgnoreCase("default")) {
-					defaultLadder(cmd, cmd.getArg(2));
-				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
+				} else if (cmd.getArg(1).equalsIgnoreCase("set")
+						|| cmd.getArg(1).equalsIgnoreCase("toggle")) {
 					super.wrongArgs(cmd);
+				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
+					listLadders(cmd);
 				} else {
 					help(cmd, 0);
 				}
 			} else if (cmd.getArg(0).equalsIgnoreCase("rank")) {
-				if (cmd.getArg(1).equalsIgnoreCase("add")) {
-					super.wrongArgs(cmd);
-				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
-					super.wrongArgs(cmd);
-				} else if (cmd.getArg(1).equalsIgnoreCase("move")) {
+				if (cmd.getArg(1).equalsIgnoreCase("add")
+						|| cmd.getArg(1).equalsIgnoreCase("remove")
+						|| cmd.getArg(1).equalsIgnoreCase("move")) {
 					super.wrongArgs(cmd);
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
 					listRanks(cmd, cmd.getArg(2));
@@ -127,9 +121,8 @@ public class PaidRanksCommand extends MessageCommand {
 			}
 		} else if (cmd.getLength() == 4) {
 			if (cmd.getArg(0).equalsIgnoreCase("reload")) {
-				if (cmd.getArg(1).equalsIgnoreCase("language")) {
-					super.wrongArgs(cmd);
-				} else if (cmd.getArg(1).equalsIgnoreCase("ranks")) {
+				if (cmd.getArg(1).equalsIgnoreCase("language")
+						|| cmd.getArg(1).equalsIgnoreCase("ranks")) {
 					super.wrongArgs(cmd);
 				} else {
 					help(cmd, 0);
@@ -138,12 +131,22 @@ public class PaidRanksCommand extends MessageCommand {
 				if (cmd.getArg(1).equalsIgnoreCase("create")) {
 					this.createLadder(cmd, cmd.getArg(2), cmd.getArg(3), null);
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
-					super.wrongArgs(cmd);
-				} else if (cmd.getArg(1).equalsIgnoreCase("default")) {
-					super.wrongArgs(cmd);
+					this.removeLadder(cmd, cmd.getArg(2));
+				} else if (cmd.getArg(1).equalsIgnoreCase("set")) {
+					if(cmd.getArg(2).equalsIgnoreCase("default")) {
+						this.defaultLadder(cmd, cmd.getArg(3));
+					}else{
+						super.wrongArgs(cmd);
+					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
-					super.wrongArgs(cmd);
-				} else {
+					this.listLadders(cmd);
+				} else if(cmd.getArg(1).equalsIgnoreCase("toggle")) {
+					if(cmd.getArg(2).equalsIgnoreCase("requiresRank")) {
+						this.toggleRequiresRank(cmd, cmd.getArg(3));
+					}else{
+						super.wrongArgs(cmd);
+					}
+				}else{
 					help(cmd, 0);
 				}
 			} else if (cmd.getArg(0).equalsIgnoreCase("rank")) {
@@ -154,7 +157,7 @@ public class PaidRanksCommand extends MessageCommand {
 				} else if (cmd.getArg(1).equalsIgnoreCase("move")) {
 					super.wrongArgs(cmd);
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
-					super.wrongArgs(cmd);
+					this.listRanks(cmd, cmd.getArg(2));
 				} else {
 					help(cmd, 0);
 				}
@@ -163,9 +166,8 @@ public class PaidRanksCommand extends MessageCommand {
 			}
 		} else if (cmd.getLength() == 5) {
 			if (cmd.getArg(0).equalsIgnoreCase("reload")) {
-				if (cmd.getArg(1).equalsIgnoreCase("language")) {
-					super.wrongArgs(cmd);
-				} else if (cmd.getArg(1).equalsIgnoreCase("ranks")) {
+				if (cmd.getArg(1).equalsIgnoreCase("language")
+						|| cmd.getArg(1).equalsIgnoreCase("ranks")) {
 					super.wrongArgs(cmd);
 				} else {
 					help(cmd, 0);
@@ -174,12 +176,22 @@ public class PaidRanksCommand extends MessageCommand {
 				if (cmd.getArg(1).equalsIgnoreCase("create")) {
 					this.createLadder(cmd, cmd.getArg(2), cmd.getArg(3), cmd.getArg(4));
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
-					super.wrongArgs(cmd);
-				} else if (cmd.getArg(1).equalsIgnoreCase("default")) {
-					super.wrongArgs(cmd);
+					this.removeLadder(cmd, cmd.getArg(2));
+				} else if (cmd.getArg(1).equalsIgnoreCase("set")) {
+					if(cmd.getArg(2).equalsIgnoreCase("default")) {
+						this.defaultLadder(cmd, cmd.getArg(3));
+					}else{
+						super.wrongArgs(cmd);
+					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
-					super.wrongArgs(cmd);
-				} else {
+					this.listLadders(cmd);
+				} else if(cmd.getArg(1).equalsIgnoreCase("toggle")) {
+					if(cmd.getArg(2).equalsIgnoreCase("requiresRank")) {
+						this.toggleRequiresRank(cmd, cmd.getArg(3));
+					}else{
+						super.wrongArgs(cmd);
+					}
+				}else {
 					help(cmd, 0);
 				}
 			} else if (cmd.getArg(0).equalsIgnoreCase("rank")) {
@@ -190,7 +202,7 @@ public class PaidRanksCommand extends MessageCommand {
 						super.error(cmd, "You must use a positive number!");
 					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
-					super.wrongArgs(cmd);
+					this.removeRank(cmd, cmd.getArg(2), cmd.getArg(3));
 				} else if (cmd.getArg(1).equalsIgnoreCase("move")) {
 					if (cmd.isNumeric(4)) {
 						moveRank(cmd, cmd.getArg(2), cmd.getArg(3), cmd.getInteger(4));
@@ -198,7 +210,7 @@ public class PaidRanksCommand extends MessageCommand {
 						super.error(cmd, "You must use a positive number!");
 					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
-					super.wrongArgs(cmd);
+					this.listRanks(cmd, cmd.getArg(2));
 				} else {
 					help(cmd, 0);
 				}
@@ -207,23 +219,32 @@ public class PaidRanksCommand extends MessageCommand {
 			}
 		} else if (cmd.getLength() == 6) {
 			if (cmd.getArg(0).equalsIgnoreCase("reload")) {
-				if (cmd.getArg(1).equalsIgnoreCase("language")) {
-					this.reloadLanguage(cmd);
-				} else if (cmd.getArg(1).equalsIgnoreCase("ranks")) {
-					this.reloadRanks(cmd);
+				if (cmd.getArg(1).equalsIgnoreCase("language")
+						|| cmd.getArg(1).equalsIgnoreCase("ranks")) {
+					super.wrongArgs(cmd);
 				} else {
 					help(cmd, 0);
 				}
 			} else if (cmd.getArg(0).equalsIgnoreCase("ladder")) {
 				if (cmd.getArg(1).equalsIgnoreCase("create")) {
-					super.wrongArgs(cmd);
+					this.createLadder(cmd, cmd.getArg(2), cmd.getArg(3), cmd.getArg(4));
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
-					super.wrongArgs(cmd);
-				} else if (cmd.getArg(1).equalsIgnoreCase("default")) {
-					super.wrongArgs(cmd);
+					this.removeLadder(cmd, cmd.getArg(2));
+				} else if (cmd.getArg(1).equalsIgnoreCase("set")) {
+					if(cmd.getArg(2).equalsIgnoreCase("default")) {
+						this.defaultLadder(cmd, cmd.getArg(3));
+					}else{
+						super.wrongArgs(cmd);
+					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
-					super.wrongArgs(cmd);
-				} else {
+					this.listLadders(cmd);
+				} else if(cmd.getArg(1).equalsIgnoreCase("toggle")) {
+					if(cmd.getArg(2).equalsIgnoreCase("requiresRank")) {
+						this.toggleRequiresRank(cmd, cmd.getArg(3));
+					}else{
+						super.wrongArgs(cmd);
+					}
+				}else {
 					help(cmd, 0);
 				}
 			} else if (cmd.getArg(0).equalsIgnoreCase("rank")) {
@@ -234,11 +255,15 @@ public class PaidRanksCommand extends MessageCommand {
 						super.error(cmd, "You must use a positive number!");
 					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
-					super.wrongArgs(cmd);
+					this.removeRank(cmd, cmd.getArg(2), cmd.getArg(3));
 				} else if (cmd.getArg(1).equalsIgnoreCase("move")) {
-					super.wrongArgs(cmd);
+					if (cmd.isNumeric(4)) {
+						this.moveRank(cmd, cmd.getArg(2), cmd.getArg(3), cmd.getInteger(4));
+					} else {
+						super.error(cmd, "You must use a positive number!");
+					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
-					super.wrongArgs(cmd);
+					this.listRanks(cmd, cmd.getArg(2));
 				} else {
 					help(cmd, 0);
 				}
@@ -359,6 +384,22 @@ public class PaidRanksCommand extends MessageCommand {
 				super.msg(cmd, prefix + LanguageSettings.Commands_PaidRanks_Ladder_NotAvailable.getSetting());
 			}
 		} else {
+			super.noPerm(cmd);
+		}
+	}
+	
+	private void toggleRequiresRank(IssuedCommand cmd, String ladder) {
+		if (cmd.getSender().hasPermission("paidranks.commands.pr.ladder.toggle.requiresrank")) {
+			if(this.manager.hasLadder(ladder)) {
+				Ladder ladderx = this.manager.getLadder(ladder);
+				ladderx.setRequiresRank(!ladderx.isRequiresRank());
+				super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Ladder_Toggle_RequiresRank.getSetting()
+						.replace("%ladder", ladderx.getName())
+						.replace("%value", ladderx.isRequiresRank() + ""));
+			}else{
+				super.msgPrefix(cmd, LanguageSettings.Commands_LadderDoesNotExist.getSetting());
+			}
+		}else{
 			super.noPerm(cmd);
 		}
 	}
