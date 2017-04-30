@@ -206,10 +206,10 @@ public class RankupCommand extends MessageCommand {
 						super.error(cmd, LanguageSettings.Commands_Rankup_HighRank.getSetting());
 					}
 				} else {
-					super.error(cmd, LanguageSettings.Commands_Rankup_InGame.getSetting());
+					super.error(cmd, LanguageSettings.Commands_LadderDoesNotExist.getSetting());
 				}
 			} else {
-				super.error(cmd, LanguageSettings.Commands_LadderDoesNotExist.getSetting());
+				super.error(cmd, LanguageSettings.Commands_Rankup_InGame.getSetting());
 			}
 		} else {
 			super.noPerm(cmd);
