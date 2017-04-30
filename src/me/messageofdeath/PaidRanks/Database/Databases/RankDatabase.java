@@ -46,6 +46,7 @@ public class RankDatabase {
 				hasDefault = true;
 			}
 			ladderx.setDefault(isDefault);
+			ladderx.checkPositions();
 			this.instance.getLadderManager().addLadder(ladderx);
 			pre = "Ladders";
 		}

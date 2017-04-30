@@ -31,6 +31,7 @@ public class RankManager {
 		if (hasRank(rank)) {
 			Rank rankx = getRank(rank);
 			this.ranks.remove(rankx);
+			this.checkPositions();
 			this.instance.getDatabaseManager().getRankDatabase().deleteRank(this.ladder, rankx.getName());
 		}
 	}
