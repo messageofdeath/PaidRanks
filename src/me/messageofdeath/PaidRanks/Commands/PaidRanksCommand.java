@@ -75,7 +75,6 @@ public class PaidRanksCommand extends MessageCommand {
 				if (cmd.getArg(1).equalsIgnoreCase("add")
 						|| cmd.getArg(1).equalsIgnoreCase("remove")
 						|| cmd.getArg(1).equalsIgnoreCase("set")
-						|| cmd.getArg(1).equalsIgnoreCase("move")
 						|| cmd.getArg(1).equalsIgnoreCase("list")
 						|| cmd.getArg(1).equalsIgnoreCase("info")) {
 					super.wrongArgs(cmd);
@@ -111,7 +110,6 @@ public class PaidRanksCommand extends MessageCommand {
 			} else if (cmd.getArg(0).equalsIgnoreCase("rank")) {
 				if (cmd.getArg(1).equalsIgnoreCase("add")
 						|| cmd.getArg(1).equalsIgnoreCase("remove")
-						|| cmd.getArg(1).equalsIgnoreCase("move")
 						|| cmd.getArg(1).equalsIgnoreCase("info")) {
 					super.wrongArgs(cmd);
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
@@ -159,8 +157,7 @@ public class PaidRanksCommand extends MessageCommand {
 					this.addRank(cmd, cmd.getArg(2), cmd.getArg(3), 0, "noPerm");
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
 					removeRank(cmd, cmd.getArg(2), cmd.getArg(3));
-				} else if (cmd.getArg(1).equalsIgnoreCase("move")
-						|| cmd.getArg(1).equalsIgnoreCase("set")) {
+				} else if (cmd.getArg(1).equalsIgnoreCase("set")) {
 					super.wrongArgs(cmd);
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
 					this.listRanks(cmd, cmd.getArg(2));
@@ -213,12 +210,6 @@ public class PaidRanksCommand extends MessageCommand {
 					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
 					this.removeRank(cmd, cmd.getArg(2), cmd.getArg(3));
-				} else if (cmd.getArg(1).equalsIgnoreCase("move")) {
-					if (cmd.isNumeric(4)) {
-						moveRank(cmd, cmd.getArg(2), cmd.getArg(3), cmd.getInteger(4));
-					} else {
-						super.error(cmd, LanguageSettings.Commands_MustBeNumeric.getSetting().replace("%arg", "position"));
-					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
 					this.listRanks(cmd, cmd.getArg(2));
 				} else if (cmd.getArg(1).equalsIgnoreCase("set")){
@@ -272,12 +263,6 @@ public class PaidRanksCommand extends MessageCommand {
 					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("remove")) {
 					this.removeRank(cmd, cmd.getArg(2), cmd.getArg(3));
-				} else if (cmd.getArg(1).equalsIgnoreCase("move")) {
-					if (cmd.isNumeric(4)) {
-						this.moveRank(cmd, cmd.getArg(2), cmd.getArg(3), cmd.getInteger(4));
-					} else {
-						super.error(cmd, LanguageSettings.Commands_MustBeNumeric.getSetting().replace("%arg", "position"));
-					}
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
 					this.listRanks(cmd, cmd.getArg(2));
 				} else if (cmd.getArg(1).equalsIgnoreCase("set")) {
@@ -535,7 +520,7 @@ public class PaidRanksCommand extends MessageCommand {
 					Rank rankx = ladderx.getRank(rank);
 					if(type.equalsIgnoreCase("cost") || type.equalsIgnoreCase("price")) {
 						if(cmd.isNumeric(5)) {
-							rankx.setPrice(Double.parseDouble(value));
+							rankx.setPrice(cmd.getDouble(5));
 							this.instance.getDatabaseManager().getRankDatabase().saveDatabase();
 							super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Rank_Set.getSetting()
 									.replace("%type", "price")
@@ -551,6 +536,22 @@ public class PaidRanksCommand extends MessageCommand {
 								.replace("%type", "permission")
 								.replace("%value", value)
 								.replace("%rank", rankx.getName()));
+					}else if(type.equalsIgnoreCase("id") || type.equalsIgnoreCase("position") || type.equalsIgnoreCase("pos")) {
+						if(cmd.isNumeric(5)) {
+							int id = cmd.getInteger(5);
+							if ((id > 0) && (id <= ladderx.getRanks().size())) {
+								ladderx.setPosition(rankx, id);
+								this.instance.getDatabaseManager().getRankDatabase().saveDatabase();
+								super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Rank_Set.getSetting()
+										.replace("%type", "position")
+										.replace("%value", value)
+										.replace("%rank", rankx.getName()));
+							} else {
+								super.error(cmd, LanguageSettings.Commands_PaidRanks_Rank_SetPositionError.getSetting().replace("%id", ladderx.getRanks().size() + ""));
+							}
+						}else{
+							super.error(cmd, LanguageSettings.Commands_MustBeNumeric.getSetting().replace("%arg", "position"));
+						}
 					}else{
 						super.error(cmd, LanguageSettings.Commands_PaidRanks_Rank_SetError.getSetting());
 					}
@@ -561,28 +562,6 @@ public class PaidRanksCommand extends MessageCommand {
 				super.error(cmd, LanguageSettings.Commands_NoPermission.getSetting());
 			}
 		}else{
-			super.noPerm(cmd);
-		}
-	}
-
-	private void moveRank(IssuedCommand cmd, String ladder, String rank, int id) {
-		if (cmd.getSender().hasPermission("paidranks.commands.pr.rank.move")) {
-			if (this.manager.hasLadder(ladder)) {
-				Ladder ladderx = this.manager.getLadder(ladder);
-				if (ladderx.hasRank(rank)) {
-					if ((id > 0) && (id <= ladderx.getRanks().size())) {
-						ladderx.setPosition(ladderx.getRank(rank), id);
-						super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Rank_Move.getSetting());
-					} else {
-						super.error(cmd, LanguageSettings.Commands_PaidRanks_Rank_MoveError.getSetting().replace("%id", ladderx.getRanks().size() + ""));
-					}
-				} else {
-					super.error(cmd, LanguageSettings.Commands_RankDoesNotExist.getSetting());
-				}
-			} else {
-				super.error(cmd, LanguageSettings.Commands_LadderDoesNotExist.getSetting());
-			}
-		} else {
 			super.noPerm(cmd);
 		}
 	}
@@ -626,9 +605,8 @@ public class PaidRanksCommand extends MessageCommand {
 		this.list.addOption(new Option("/pr ladder list - Lists all the available ladders.", "paidranks.commands.pr.ladder.list"));
 		this.list.addOption(new Option("/pr rank add <ladderName> <rankName> [price] [permission] - Add a rank to a ladder.", "paidranks.commands.pr.rank.add"));
 		this.list.addOption(new Option("/pr rank remove <ladderName> <rankName> - Removes a rank from a ladder", "paidranks.commands.pr.rank.remove"));
-		this.list.addOption(new Option("/pr rank set <ladderName> <rankName> <price | perm> <value> - Sets the 'type' to the value.", "paidranks.commands.pr.rank.set"));
+		this.list.addOption(new Option("/pr rank set <ladderName> <rankName> <price | perm | position> <value> - Sets the 'type' to the value.", "paidranks.commands.pr.rank.set"));
 		this.list.addOption(new Option("/pr rank info <ladderName> <rankName> - Gets information about the rank.", "paidranks.commands.pr.rank.info"));
-		this.list.addOption(new Option("/pr rank move <ladderName> <rankName> <ID> - Changes the position of the rank.", "paidranks.commands.pr.rank.move"));
 		this.list.addOption(new Option("/pr rank list <ladderName> - Lists all the ranks within that ladder.", "paidranks.commands.pr.rank.list"));
 	}
 
