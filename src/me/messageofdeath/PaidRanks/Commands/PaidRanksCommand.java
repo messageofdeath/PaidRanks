@@ -65,7 +65,8 @@ public class PaidRanksCommand extends MessageCommand {
 				if (cmd.getArg(1).equalsIgnoreCase("create")
 						|| cmd.getArg(1).equalsIgnoreCase("remove")
 						|| cmd.getArg(1).equalsIgnoreCase("set")
-						|| cmd.getArg(1).equalsIgnoreCase("toggle")) {
+						|| cmd.getArg(1).equalsIgnoreCase("toggle")
+						|| cmd.getArg(1).equalsIgnoreCase("info")) {
 					super.wrongArgs(cmd);
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
 					listLadders(cmd);
@@ -77,7 +78,8 @@ public class PaidRanksCommand extends MessageCommand {
 						|| cmd.getArg(1).equalsIgnoreCase("remove")
 						|| cmd.getArg(1).equalsIgnoreCase("set")
 						|| cmd.getArg(1).equalsIgnoreCase("move")
-						|| cmd.getArg(1).equalsIgnoreCase("list")) {
+						|| cmd.getArg(1).equalsIgnoreCase("list")
+						|| cmd.getArg(1).equalsIgnoreCase("info")) {
 					super.wrongArgs(cmd);
 				} else {
 					help(cmd, 0);
@@ -103,13 +105,16 @@ public class PaidRanksCommand extends MessageCommand {
 					super.wrongArgs(cmd);
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
 					listLadders(cmd);
+				} else if (cmd.getArg(1).equalsIgnoreCase("info")) {
+					infoLadder(cmd, cmd.getArg(2));
 				} else {
 					help(cmd, 0);
 				}
 			} else if (cmd.getArg(0).equalsIgnoreCase("rank")) {
 				if (cmd.getArg(1).equalsIgnoreCase("add")
 						|| cmd.getArg(1).equalsIgnoreCase("remove")
-						|| cmd.getArg(1).equalsIgnoreCase("move")) {
+						|| cmd.getArg(1).equalsIgnoreCase("move")
+						|| cmd.getArg(1).equalsIgnoreCase("info")) {
 					super.wrongArgs(cmd);
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
 					listRanks(cmd, cmd.getArg(2));
@@ -146,6 +151,8 @@ public class PaidRanksCommand extends MessageCommand {
 					}else{
 						super.wrongArgs(cmd);
 					}
+				}else if (cmd.getArg(1).equalsIgnoreCase("info")) {
+					infoLadder(cmd, cmd.getArg(2));
 				}else{
 					help(cmd, 0);
 				}
@@ -159,6 +166,8 @@ public class PaidRanksCommand extends MessageCommand {
 					super.wrongArgs(cmd);
 				} else if (cmd.getArg(1).equalsIgnoreCase("list")) {
 					this.listRanks(cmd, cmd.getArg(2));
+				} else if (cmd.getArg(1).equalsIgnoreCase("info")) {
+					this.infoRank(cmd, cmd.getArg(2), cmd.getArg(3));
 				} else {
 					help(cmd, 0);
 				}
@@ -192,6 +201,8 @@ public class PaidRanksCommand extends MessageCommand {
 					}else{
 						super.wrongArgs(cmd);
 					}
+				}else if (cmd.getArg(1).equalsIgnoreCase("info")) {
+					infoLadder(cmd, cmd.getArg(2));
 				}else {
 					help(cmd, 0);
 				}
@@ -214,6 +225,8 @@ public class PaidRanksCommand extends MessageCommand {
 					this.listRanks(cmd, cmd.getArg(2));
 				} else if (cmd.getArg(1).equalsIgnoreCase("set")){
 					super.wrongArgs(cmd);
+				} else if (cmd.getArg(1).equalsIgnoreCase("info")) {
+					this.infoRank(cmd, cmd.getArg(2), cmd.getArg(3));
 				}else{
 					help(cmd, 0);
 				}
@@ -247,6 +260,8 @@ public class PaidRanksCommand extends MessageCommand {
 					}else{
 						super.wrongArgs(cmd);
 					}
+				}else if (cmd.getArg(1).equalsIgnoreCase("info")) {
+					infoLadder(cmd, cmd.getArg(2));
 				}else {
 					help(cmd, 0);
 				}
@@ -272,6 +287,8 @@ public class PaidRanksCommand extends MessageCommand {
 				} else {
 					help(cmd, 0);
 				}
+			}  else if (cmd.getArg(1).equalsIgnoreCase("info")) {
+				this.infoRank(cmd, cmd.getArg(2), cmd.getArg(3));
 			} else {
 				help(cmd, 0);
 			}
@@ -401,6 +418,73 @@ public class PaidRanksCommand extends MessageCommand {
 				super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Ladder_Toggle_RequiresRank.getSetting()
 						.replace("%ladder", ladderx.getName())
 						.replace("%value", ladderx.isRequiresRank() + ""));
+			}else{
+				super.error(cmd, LanguageSettings.Commands_LadderDoesNotExist.getSetting());
+			}
+		}else{
+			super.noPerm(cmd);
+		}
+	}
+	
+	private void infoLadder(IssuedCommand cmd, String ladder) {
+		if(cmd.getSender().hasPermission("paidranks.commands.pr.ladder.info")) {
+			if(this.manager.hasLadder(ladder)) {
+				Ladder ladderx = this.manager.getLadder(ladder);
+				super.msgPrefix(cmd, LanguageSettings.Commands_Paidranks_Info_Header.getSetting().replace("%value", "Ladder"));
+				super.msg(cmd, LanguageSettings.Commands_Paidranks_Info_Values.getSetting()
+						.replace("%name", "Ladder Name")
+						.replace("%value", ladderx.getName()));
+				super.msg(cmd, LanguageSettings.Commands_Paidranks_Info_Values.getSetting()
+						.replace("%name", "Default")
+						.replace("%value", ladderx.isDefault() + ""));
+				super.msg(cmd, LanguageSettings.Commands_Paidranks_Info_Values.getSetting()
+						.replace("%name", "Requires Rank")
+						.replace("%value", ladderx.isRequiresRank() + ""));
+				super.msg(cmd, LanguageSettings.Commands_Paidranks_Info_Values.getSetting()
+						.replace("%name", "Ranks")
+						.replace("%value", ""));
+				String prefix = LanguageSettings.Commands_Paidranks_Info_Prefix.getSetting();
+				if (!ladderx.getRanks().isEmpty()) {
+					for (Rank rank : ladderx.getRanks()) {
+						super.msg(cmd, prefix + LanguageSettings.Commands_PaidRanks_Rank_List_Format.getSetting()
+								.replace("%position", rank.getPosition() + "")
+								.replace("%name", rank.getName())
+								.replace("%cash", PaidRanksAPI.getFormat(rank.getPrice()))
+								.replace("%permission", rank.getPermission()));
+					}
+				} else {
+					super.msg(cmd, prefix + LanguageSettings.Commands_PaidRanks_Rank_NotAvailable.getSetting());
+				}
+			}else{
+				super.error(cmd, LanguageSettings.Commands_LadderDoesNotExist.getSetting());
+			}
+		}else{
+			super.noPerm(cmd);
+		}
+	}
+	
+	private void infoRank(IssuedCommand cmd, String ladder, String rank) {
+		if(cmd.getSender().hasPermission("paidranks.commands.pr.rank.info")) {
+			if(this.manager.hasLadder(ladder)) {
+				Ladder ladderx = this.manager.getLadder(ladder);
+				if(ladderx.hasRank(rank)) {
+					Rank rankx = ladderx.getRank(rank);
+					super.msgPrefix(cmd, LanguageSettings.Commands_Paidranks_Info_Header.getSetting().replace("%value", "Rank"));
+					super.msg(cmd, LanguageSettings.Commands_Paidranks_Info_Values.getSetting()
+							.replace("%name", "Name")
+							.replace("%value", rankx.getName()));
+					super.msg(cmd, LanguageSettings.Commands_Paidranks_Info_Values.getSetting()
+							.replace("%name", "Position")
+							.replace("%value", rankx.getPosition() + ""));
+					super.msg(cmd, LanguageSettings.Commands_Paidranks_Info_Values.getSetting()
+							.replace("%name", "Price")
+							.replace("%value", PaidRanksAPI.getFormat(rankx.getPrice())));
+					super.msg(cmd, LanguageSettings.Commands_Paidranks_Info_Values.getSetting()
+							.replace("%name", "Permission")
+							.replace("%value", rankx.getPermission()));
+				}else{
+					super.error(cmd, LanguageSettings.Commands_RankDoesNotExist.getSetting());
+				}
 			}else{
 				super.error(cmd, LanguageSettings.Commands_LadderDoesNotExist.getSetting());
 			}
@@ -546,13 +630,17 @@ public class PaidRanksCommand extends MessageCommand {
 		this.list.addOption(new Option("/pr help [page]- Page of help.", "paidranks.commands.pr.help"));
 		this.list.addOption(new Option("/pr reload - Reloads the whole plugin.", "paidranks.commands.pr.reload"));
 		this.list.addOption(new Option("/pr reload language - Reloads the language file.", "paidranks.commands.pr.reload.language"));
-		this.list.addOption(new Option("/pr reload ranks - Reloads the ranks file/mysql.", "paidranks.commands.pr.reload.ranks"));
-		this.list.addOption(new Option("/pr ladder create <ladderName> [-default or -requiresRank] - Creates a ladder.", "paidranks.commands.pr.ladder.create"));
+		this.list.addOption(new Option("/pr reload ranks - Reloads the ranks file.", "paidranks.commands.pr.reload.ranks"));
+		this.list.addOption(new Option("/pr ladder create <ladderName> [-default and|or -requiresRank] - Creates a ladder.", "paidranks.commands.pr.ladder.create"));
 		this.list.addOption(new Option("/pr ladder remove <ladderName> - Removes a ladder.", "paidranks.commands.pr.ladder.remove"));
 		this.list.addOption(new Option("/pr ladder default <ladderName> - Sets the default ladder.", "paidranks.commands.pr.ladder.default"));
+		this.list.addOption(new Option("/pr ladder toggle requiresRank <ladderName> - Toggles whether the ladder requires a rank.", "paidranks.commands.pr.ladder.toggle.requiresrank"));
+		this.list.addOption(new Option("/pr ladder info <ladderName> - Get information about the ladder.", "paidranks.commands.pr.ladder.info"));
 		this.list.addOption(new Option("/pr ladder list - Lists all the available ladders.", "paidranks.commands.pr.ladder.list"));
 		this.list.addOption(new Option("/pr rank add <ladderName> <rankName> [price] [permission] - Add a rank to a ladder.", "paidranks.commands.pr.rank.add"));
 		this.list.addOption(new Option("/pr rank remove <ladderName> <rankName> - Removes a rank from a ladder", "paidranks.commands.pr.rank.remove"));
+		this.list.addOption(new Option("/pr rank set <ladderName> <rankName> <price | perm> <value> - Sets the 'type' to the value.", "paidranks.commands.pr.rank.set"));
+		this.list.addOption(new Option("/pr rank info <ladderName> <rankName> - Gets information about the rank.", "paidranks.commands.pr.rank.info"));
 		this.list.addOption(new Option("/pr rank move <ladderName> <rankName> <ID> - Changes the position of the rank.", "paidranks.commands.pr.rank.move"));
 		this.list.addOption(new Option("/pr rank list <ladderName> - Lists all the ranks within that ladder.", "paidranks.commands.pr.rank.list"));
 	}

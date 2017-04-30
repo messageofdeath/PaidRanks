@@ -37,6 +37,9 @@ public enum LanguageSettings {
 	Commands_PaidRanks_Ladder_List_Prefix("&8 -&a "), 
 	Commands_PaidRanks_Ladder_List_Format("%name"), 
 	Commands_PaidRanks_Ladder_NotAvailable("No available ladders to show at the moment."), 
+	Commands_Paidranks_Info_Header("%value Information:"),
+	Commands_Paidranks_Info_Values("  &7%name: &a%value"),
+	Commands_Paidranks_Info_Prefix(" &8 -&a "),
 	Commands_PaidRanks_Help_Top("Available Commands (%page/%totalpages):"), 
 	Commands_PaidRanks_Help_Disclaimer("<> are required | [] are not required"), 
 	
