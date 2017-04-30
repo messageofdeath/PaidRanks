@@ -1,6 +1,6 @@
 name: PaidRanks
 author: messageofdeath
-version: 3.6
+version: 3.7
 softdepend: [TheNewEconomy, PermissionsEx, LuckPerms, SQLEconomy, iConomy]
 main: me.messageofdeath.PaidRanks.PaidRanks
 commands:
@@ -39,14 +39,21 @@ permissions:
       paidranks.commands.pr.ladder.create: true
       paidranks.commands.pr.ladder.remove: true
       paidranks.commands.pr.ladder.default: true
+      paidranks.commands.pr.ladder.info: true
       paidranks.commands.pr.ladder.list: true
+      paidranks.commands.pr.ladder.toggle: true
   paidranks.commands.pr.rank.*:
     description: Gives access to all rank commands of pr
     children:
       paidranks.commands.pr.rank.add: true
       paidranks.commands.pr.rank.remove: true
-      paidranks.commands.pr.rank.move: true
+      paidranks.commands.pr.rank.set: true
+      paidranks.commands.pr.rank.info: true
       paidranks.commands.pr.rank.list: true
+  paidranks.commands.pr.ladder.toggle.*:
+    desription: Gives acces to toggle variable in ladders
+    children:
+      paidranks.commands.pr.ladder.toggle.requiresrank: true
   paidranks.commands.ru.*:
     description: Gives access to all rankup commnads
     children:
