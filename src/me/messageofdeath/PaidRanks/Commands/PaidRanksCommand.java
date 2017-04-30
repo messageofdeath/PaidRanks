@@ -23,7 +23,7 @@ public class PaidRanksCommand extends MessageCommand {
 
 	public PaidRanksCommand(PaidRanks instance) {
 		this.instance = instance;
-		this.list = new PageList(5);
+		this.list = new PageList(4);
 		setupHelp();
 		this.messenger = new Messenger(this.instance.getPrefix());
 	}
