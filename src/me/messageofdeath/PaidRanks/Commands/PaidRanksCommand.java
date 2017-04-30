@@ -599,7 +599,7 @@ public class PaidRanksCommand extends MessageCommand {
 		this.list.addOption(new Option("/pr reload ranks - Reloads the ranks file.", "paidranks.commands.pr.reload.ranks"));
 		this.list.addOption(new Option("/pr ladder create <ladderName> [-default and|or -requiresRank] - Creates a ladder.", "paidranks.commands.pr.ladder.create"));
 		this.list.addOption(new Option("/pr ladder remove <ladderName> - Removes a ladder.", "paidranks.commands.pr.ladder.remove"));
-		this.list.addOption(new Option("/pr ladder default <ladderName> - Sets the default ladder.", "paidranks.commands.pr.ladder.default"));
+		this.list.addOption(new Option("/pr ladder set default <ladderName> - Sets the default ladder.", "paidranks.commands.pr.ladder.default"));
 		this.list.addOption(new Option("/pr ladder toggle requiresRank <ladderName> - Toggles whether the ladder requires a rank.", "paidranks.commands.pr.ladder.toggle.requiresrank"));
 		this.list.addOption(new Option("/pr ladder info <ladderName> - Get information about the ladder.", "paidranks.commands.pr.ladder.info"));
 		this.list.addOption(new Option("/pr ladder list - Lists all the available ladders.", "paidranks.commands.pr.ladder.list"));
