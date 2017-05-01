@@ -90,7 +90,7 @@ public class RankManager {
 		ArrayList<Rank> ranks = this.ranks;
 		Collections.sort(ranks, comparePosition());
 		if (!ranks.isEmpty()) {
-			int lastPosition = ((Rank) ranks.get(0)).getPosition();
+			int lastPosition = 0;
 			int difference = 0;
 			Rank rankx = null;
 			for (int i = 0; i < ranks.size(); i++) {
