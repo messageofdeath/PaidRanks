@@ -109,6 +109,9 @@ public class RankManager {
 						}
 					}
 					lastPosition = rankx.getPosition();
+				}else if(lastPosition == rankx.getPosition()){
+					rankx.setPosition(rankx.getPosition() + 1);
+					lastPosition = rankx.getPosition();
 				}
 			}
 			Collections.sort(ranks, comparePosition());
