@@ -540,7 +540,7 @@ public class PaidRanksCommand extends MessageCommand {
 						if(cmd.isNumeric(5)) {
 							int id = cmd.getInteger(5);
 							if ((id > 0) && (id <= ladderx.getRanks().size())) {
-								ladderx.setPosition(rankx, id);
+								ladderx.setPosition(rankx.getPosition(), id);
 								this.instance.getDatabaseManager().getRankDatabase().saveDatabase();
 								super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Rank_Set.getSetting()
 										.replace("%type", "position")

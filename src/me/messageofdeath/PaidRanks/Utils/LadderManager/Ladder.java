@@ -64,8 +64,8 @@ public class Ladder {
 		return this.rankManager.getRanks();
 	}
 
-	public void setPosition(Rank rank, int position) {
-		this.rankManager.setPosition(rank, position);
+	public void setPosition(int oldPosition, int newPosition) {
+		this.rankManager.setPosition(oldPosition, newPosition);
 	}
 
 	public void checkPositions() {

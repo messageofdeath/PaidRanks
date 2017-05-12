@@ -1,9 +1,9 @@
 package me.messageofdeath.PaidRanks.Utils.RankManager;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import me.messageofdeath.PaidRanks.PaidRanks;
+import me.messageofdeath.PaidRanks.Utils.IDHolder;
+import me.messageofdeath.PaidRanks.Utils.Utilities;
 
 public class RankManager {
 	
@@ -70,69 +70,6 @@ public class RankManager {
 		return i;
 	}
 
-	public void setPosition(Rank rank, int position) {
-		ArrayList<Rank> ranks = this.ranks;
-		for (Rank rankx : ranks) {
-			if (rankx.getPosition() >= position) {
-				rankx.setPosition(rankx.getPosition() + 1);
-			}
-		}
-		for (Rank rankx : ranks) {
-			if (rankx.getName().equalsIgnoreCase(rank.getName())) {
-				rankx.setPosition(position);
-				break;
-			}
-		}
-		checkPositions();
-	}
-
-	public void checkPositions() {
-		ArrayList<Rank> ranks = this.ranks;
-		Collections.sort(ranks, comparePosition());
-		if (!ranks.isEmpty()) {
-			int lastPosition = 0;
-			int difference = 0;
-			Rank rankx = null;
-			for (int i = 0; i < ranks.size(); i++) {
-				rankx = (Rank) ranks.get(i);
-				if (lastPosition != rankx.getPosition()) {
-					difference = rankx.getPosition() - lastPosition;
-					if (difference > 1) {
-						for (int x = i; x < ranks.size(); x++) {
-							((Rank) ranks.get(x)).setPosition(((Rank) ranks.get(x)).getPosition() - difference);
-						}
-					}
-					difference = rankx.getPosition() - lastPosition;
-					if (difference == 0) {
-						for (int x = i; x < ranks.size(); x++) {
-							((Rank) ranks.get(x)).setPosition(((Rank) ranks.get(x)).getPosition() + 1);
-						}
-					}
-					lastPosition = rankx.getPosition();
-				}else if(lastPosition == rankx.getPosition()){
-					rankx.setPosition(rankx.getPosition() + 1);
-					lastPosition = rankx.getPosition();
-				}
-			}
-			Collections.sort(ranks, comparePosition());
-			this.ranks = ranks;
-		}
-	}
-
-	public int getNextPosition() {
-		int i = 1;
-		ArrayList<Integer> ids = new ArrayList<Integer>();
-		for (Rank rank : this.ranks) {
-			ids.add(Integer.valueOf(rank.getPosition()));
-		}
-		for (;;) {
-			if (!ids.contains(Integer.valueOf(i))) {
-				return i;
-			}
-			i++;
-		}
-	}
-
 	public Rank getRequiredRank(String rank) {
 		return hasRank(rank) ? getRank(getRank(rank).getPosition() - 1) : null;
 	}
@@ -158,18 +95,32 @@ public class RankManager {
 		}
 		return null;
 	}
-
-	private static Comparator<Rank> comparePosition() {
-		return new Comparator<Rank>() {
-			public int compare(Rank rank1, Rank rank2) {
-				if (rank1.getPosition() > rank2.getPosition()) {
-					return 1;
-				}
-				if (rank1.getPosition() < rank2.getPosition()) {
-					return -1;
-				}
-				return 0;
+	
+	//---------------------------- Position Checker ----------------------------
+	
+		public void checkPositions() {
+			this.updatePositions(Utilities.sortIDs(this.toIDHolders()));
+		}
+		
+		public void setPosition(int oldPlace, int newPlace) {
+			this.updatePositions(Utilities.setID(oldPlace, newPlace, this.toIDHolders()));
+		}
+		
+		public int getNextPosition() {
+			return Utilities.getNextID(this.toIDHolders());
+		}
+		
+		private void updatePositions(ArrayList<IDHolder> holders) {
+			for(IDHolder holder : holders) {
+				((Rank)holder.getObject()).setPosition(holder.getID());
 			}
-		};
-	}
+		}
+		
+		private ArrayList<IDHolder> toIDHolders() {
+			ArrayList<IDHolder> holders = new ArrayList<IDHolder>();
+			for(Rank rank : this.ranks) {
+				holders.add(new IDHolder(rank.getPosition(), rank));
+			}
+			return holders;
+		}
 }

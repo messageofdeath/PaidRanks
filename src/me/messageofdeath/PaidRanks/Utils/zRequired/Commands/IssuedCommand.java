@@ -1,11 +1,12 @@
 package me.messageofdeath.PaidRanks.Utils.zRequired.Commands;
 
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+
+import me.messageofdeath.PaidRanks.Utils.Utilities;
 
 public class IssuedCommand {
 	
@@ -83,15 +84,27 @@ public class IssuedCommand {
 	}
 
 	public boolean isAlphanumeric(int arg) {
-		return StringUtils.isAlphanumeric(this.args[arg]);
+		return Utilities.isAlphanumeric(this.args[arg]);
 	}
 
 	public boolean isAlpha(int arg) {
-		return StringUtils.isAlpha(this.args[arg]);
+		return Utilities.isAlpha(this.args[arg]);
 	}
 
 	public boolean isNumeric(int arg) {
-		return StringUtils.isNumeric(this.args[arg]);
+		return Utilities.isNumeric(this.args[arg]);
+	}
+	
+	public boolean isInteger(int arg) {
+		return Utilities.isInteger(this.args[arg]);
+	}
+	
+	public boolean isDouble(int arg) {
+		return Utilities.isDouble(this.args[arg]);
+	}
+	
+	public boolean isFloat(int arg) {
+		return Utilities.isFloat(this.args[arg]);
 	}
 
 	public boolean isBoolean(int arg) {
