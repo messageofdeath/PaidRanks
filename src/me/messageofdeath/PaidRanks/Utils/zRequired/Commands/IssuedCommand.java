@@ -61,7 +61,6 @@ public class IssuedCommand {
 		return Bukkit.getOfflinePlayer(this.args[arg]).isOnline();
 	}
 
-	@SuppressWarnings("deprecation")
 	public Player getPlayer(int arg) {
 		return Bukkit.getPlayer(this.args[arg]);
 	}
