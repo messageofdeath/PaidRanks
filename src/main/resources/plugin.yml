@@ -1,0 +1,68 @@
+name: PaidRanks
+author: messageofdeath
+version: 3.8
+softdepend: [TheNewEconomy, PermissionsEx, LuckPerms, SQLEconomy, iConomy]
+main: me.messageofdeath.paidranks.PaidRanks
+commands:
+  paidranks:
+    description: Admin command for PaidRanks
+    aliases: [pr, prs]
+  rankup:
+    description: Rank up normally in PaidRanks
+    aliases: [ru]
+permissions:
+  paidranks.*:
+    description: Gives access to all PaidRanks features
+    children:
+      paidranks.commands.*: true
+  paidranks.commands.*:
+    description: Gives access to all PaidRanks commands
+    children:
+      paidranks.commands.pr.*: true
+      paidranks.commands.ru.*: true
+  paidranks.commands.pr.*:
+    description: Gives access to all the sub commands of pr
+    children:
+      paidranks.commands.pr.help: true
+      paidranks.commands.pr.reload.*: true
+      paidranks.commands.pr.ladder.*: true
+      paidranks.commands.pr.rank.*: true
+  paidranks.commands.pr.reload.*:
+    description: Gives access to all reload commands of pr
+    children:
+      paidranks.commands.pr.reload: true
+      paidranks.commands.pr.reload.language: true
+      paidranks.commands.pr.reload.ranks: true
+  paidranks.commands.pr.ladder.*:
+    description: Gives access to all ladder commands of pr
+    children:
+      paidranks.commands.pr.ladder.create: true
+      paidranks.commands.pr.ladder.remove: true
+      paidranks.commands.pr.ladder.default: true
+      paidranks.commands.pr.ladder.info: true
+      paidranks.commands.pr.ladder.list: true
+      paidranks.commands.pr.ladder.toggle: true
+  paidranks.commands.pr.rank.*:
+    description: Gives access to all rank commands of pr
+    children:
+      paidranks.commands.pr.rank.add: true
+      paidranks.commands.pr.rank.remove: true
+      paidranks.commands.pr.rank.set: true
+      paidranks.commands.pr.rank.info: true
+      paidranks.commands.pr.rank.list: true
+  paidranks.commands.pr.ladder.toggle.*:
+    desription: Gives acces to toggle variable in ladders
+    children:
+      paidranks.commands.pr.ladder.toggle.requiresrank: true
+  paidranks.commands.ru.*:
+    description: Gives access to all rankup commnads
+    children:
+      paidranks.commands.ru.list.*: true
+      paidranks.commands.ru.help: true
+      paidranks.commands.ru.rankup: true
+      paidranks.commands.ru.rank.next: true
+  paidranks.commands.ru.list.*:
+    description: Gives access to all list rankup commands
+    children:
+      paidranks.commands.ru.list.rank: true
+      paidranks.commands.ru.list.ladder: true
