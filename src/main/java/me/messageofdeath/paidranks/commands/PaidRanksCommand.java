@@ -346,7 +346,6 @@ public class PaidRanksCommand extends MessageCommand {
 		}
 	}
 
-	///pr ladder set <default | world> <ladderName> <value>
 	private void setLadder(IssuedCommand cmd, String type, String ladder, String value) {
 		if (cmd.getSender().hasPermission("paidranks.commands.pr.ladder.set")) {
 			if (type.equalsIgnoreCase("default")) {
@@ -372,7 +371,7 @@ public class PaidRanksCommand extends MessageCommand {
 	}
 
 	private void listLadders(IssuedCommand cmd) {
-		if (cmd.getSender().hasPermission("paidranks.commands.pr.ladder.default")) {
+		if (cmd.getSender().hasPermission("paidranks.commands.pr.ladder.list")) {
 			super.msgPrefix(cmd, LanguageSettings.Commands_PaidRanks_Ladder_List_Top.getSetting());
 			String prefix = LanguageSettings.Commands_PaidRanks_Ladder_List_Prefix.getSetting();
 			if (!this.manager.getLadders().isEmpty()) {

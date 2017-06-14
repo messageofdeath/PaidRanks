@@ -38,7 +38,7 @@ permissions:
     children:
       paidranks.commands.pr.ladder.create: true
       paidranks.commands.pr.ladder.remove: true
-      paidranks.commands.pr.ladder.default: true
+      paidranks.commands.pr.ladder.set: true
       paidranks.commands.pr.ladder.info: true
       paidranks.commands.pr.ladder.list: true
       paidranks.commands.pr.ladder.toggle: true
